@@ -1,0 +1,149 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  background-color: #FFFFFF;
+}
+
+
+.ui.main.fluid.container {
+  margin-top: 4em;
+  border: 1px solid rgba(34,36,38,.15);
+  width: calc(100% - 10px);
+  padding: 0 ;
+}
+
+.ui.menu .item img.logo {
+  margin-right: 1.5em;
+}
+
+.ui.footer.segment {
+  margin: 5em 0em 0em;
+  padding: 5em 0em;
+}
+
+.item {
+  padding-left: 10px !important;
+  user-select: none;
+  cursor: pointer;
+}
+
+
+.item.active {
+  background: rgba(65, 131, 196, 0.24);
+  color: #444;
+}
+.item:hover{
+  background:rgba(65, 131, 196, 0.8);
+  color:#eee;
+}
+
+.ui.menu .item:hover{
+  background:transparent !important;
+}
+
+.ui.menu .item:before {
+  background: transparent !important;
+}
+
+.content {
+  padding: 5px;
+}
+
+span.sl-no {
+  margin-right: 5px;
+  font-weight: 700;
+}
+
+span.sl-no:after{
+  content:'.'
+}
+
+
+.ui.internally.celled.grid {
+  min-height:50vh;
+}
+
+.ui.celled.grid>.row> .six.wide.column.event-column{
+  padding:0;
+}
+.ui.celled.grid>.row>.ten.wide.column.details-column {
+  padding:0;
+}
+
+.event-column h3,.details-column h3{
+  margin:0;
+  padding:0.5rem 0;
+  text-align: center;
+  background: #4183c4;
+  color: #fff;
+}
+
+div#event-list {
+  margin:0.1rem 0;
+}
+
+table#property-table {
+  border: none !important;
+}
+
+table#property-table {
+  margin:0.1rem 0;
+}
+
+.table {
+  display: none;
+}
+
+table.active {
+  display: block;
+}
+
+table td span {
+  display: table-cell;
+  word-break: break-word;
+}
+
+
+.check{
+  color:green;
+}
+
+.led {
+  color: hsla(339, 100%, 48%, 0.9);
+  -webkit-animation: led .8s infinite;
+  -moz-animation: led .8s infinite;
+  -ms-animation: led .8s infinite;
+  -o-animation: led .8s infinite;
+  animation: led .8s infinite;
+}
+
+/* keyframes */
+@-webkit-keyframes led {
+  from {
+    opacity:.2;
+  }
+  
+  to {
+    opacity:1;
+  }
+}
+
+@keyframes led {
+  from {
+    opacity:.2;
+  }
+  
+  to {
+    opacity:1;
+  }
+}
+
+
+
+

@@ -1,0 +1,17 @@
+{
+    "name": "Mixpanel Tools",
+    "version": "0.1",
+    "description": "A debugger tool helps to intercept mixpanel events and dispalay the properties ",
+    "devtools_page": "devtools.html",
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "permissions": [
+        "tabs", 
+        "http://*/*",
+        "https://*/*"
+    ],
+    "manifest_version": 2
+}

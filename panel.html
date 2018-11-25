@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<link href="./libs/semantic.min.css" rel="stylesheet">
+	<link href="./src/index.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="ui fixed menu">
+		<div class="ui menu fluid container">
+			<a href="#" class="header item">
+				<img class="logo" src="assets/images/logo2.png">
+				Mixpanel Tools
+			</a>
+			<a href="#" class="item record-btn"><i class="led circle icon"></i></a>
+			<a href="#" class="item clear-all-btn"><i class="eraser icon"></i></a>
+			<a href="#" class="item mixpanel-properties-btn">Hide Mixpanel Properties: <i class=" check square outline icon"></i></a>
+			<a href="#" class="item download-btn"> <i class="download icon"></i> </a>
+
+		</div>
+	</div>
+	<section id="root" class="ui main fluid container">
+		<div class="ui internally celled grid">
+			<div class="row">
+				<div class="six wide column event-column">
+					<h3>Events</h3>
+					<div class="ui relaxed divided list" id="event-list">
+					</div>
+				</div>
+				<div class="ten wide column details-column">
+					<h3>Properties</h3>
+					<table class="ui fixed table striped" id="property-table">
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</section>
+	<a id="download-anchor-node" style="display:none"></a>
+	<script src="./libs/jquery-3.3.1.min.js"></script>
+	<script src="./libs/semantic.min.js"></script>
+	<script src="./src/utils/devtool.util.js"></script>
+	<script src="./src/index.js"></script>
+</body>
+
+</html>
