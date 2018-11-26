@@ -16,8 +16,8 @@
     },
     "permissions": [
         "tabs",
-        "http://*/*",
-        "https://*/*"
+        "http://api.mixpanel.com/*",
+        "https://api.mixpanel.com/*"
     ],
     "manifest_version": 2
 }
