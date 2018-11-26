@@ -1,7 +1,13 @@
 {
     "name": "Mixpanel Tools",
     "version": "0.1",
-    "description": "A debugger tool helps to intercept mixpanel events and dispalay the properties ",
+    "description": "A debugger tool helps to intercept mixpanel events and display event properties",
+    "short_name": "mixpanel tools",
+    "icons": {
+        "16": "./assets/images/logo-16.png",
+        "48": "./assets/images/logo-48.png",
+        "128": "./assets/images/logo-128.png"
+    },
     "devtools_page": "devtools.html",
     "background": {
         "scripts": [
@@ -9,7 +15,7 @@
         ]
     },
     "permissions": [
-        "tabs", 
+        "tabs",
         "http://*/*",
         "https://*/*"
     ],
