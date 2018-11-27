@@ -17,7 +17,8 @@ Please open [chrome webstore](https://chrome.google.com/webstore/detail/mixpanel
 
 ## Built With
 
-* [thingsinjars/devtools-extension](https://github.com/thingsinjars/devtools-extension)- Boilerplate code used
+* [thingsinjars/devtools-extension](https://github.com/thingsinjars/devtools-extension)- boilerplate code
 
-#
-This README was written with ❤️ in Sydney.
+```
+Made with ❤️ in Sydney.
+```
