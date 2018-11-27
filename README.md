@@ -19,6 +19,4 @@ Please open [chrome webstore](https://chrome.google.com/webstore/detail/mixpanel
 
 * [thingsinjars/devtools-extension](https://github.com/thingsinjars/devtools-extension)- boilerplate code
 
-```
 Made with ❤️ in Sydney.
-```
