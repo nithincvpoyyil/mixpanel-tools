@@ -2,6 +2,10 @@
 
 This is a chrome extenstion project to debug mixpanel analytics calls from your web app.
 
+
+![alt text](https://raw.githubusercontent.com/nithincvpoyyil/mixpanel-tools/master/assets/images/banner.png)
+
+
 ## Full application
 
 Please open [chrome webstore](https://chrome.google.com/webstore/detail/mixpanel-tools/eifepbfdgonblafppielmnnihcopdlpo) for more details.
