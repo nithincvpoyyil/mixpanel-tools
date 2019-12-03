@@ -87,7 +87,7 @@ class MixpanelTool {
 
     isRequestValid(requestObject) {
         if (requestObject && requestObject.request && requestObject.request.url) {
-            return mixpanelAPIPattern.test(requestObject.request.url);
+            return this.mixpanelAPIPattern.test(requestObject.request.url);
 
         }
         return false;
