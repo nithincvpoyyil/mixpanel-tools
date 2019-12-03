@@ -10,8 +10,7 @@ class MixpanelTool {
             record: true
         };
 
-        this.mixpanelEventAPIPattern = "//api.mixpanel.com/track";
-        this.mixpanelPeopleAPIPattern = "//api.mixpanel.com/engage";
+        this.mixpanelAPIPattern = /\/\/(api|api\-js)\.mixpanel\.com\/(track|engage)/i;
         this.mixpanelProperties = [
             "$os",
             "$browser",
@@ -88,8 +87,7 @@ class MixpanelTool {
 
     isRequestValid(requestObject) {
         if (requestObject && requestObject.request && requestObject.request.url) {
-            return (requestObject.request.url.indexOf(this.mixpanelEventAPIPattern) > -1)
-                || (requestObject.request.url.indexOf(this.mixpanelPeopleAPIPattern) > -1);
+            return mixpanelAPIPattern.test(requestObject.request.url);
 
         }
         return false;
