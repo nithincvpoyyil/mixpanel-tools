@@ -24,7 +24,6 @@ const MIXPANEL_PROPERTIES = [
   "$__c"
 ];
 
-// API changes "api.mixpanel.com/track|engage"
-// Based on the PR from @aonic - https://github.com/nithincvpoyyil/mixpanel-tools/pull/3
+// API changes based on the PR from @aonic - https://github.com/nithincvpoyyil/mixpanel-tools/pull/3
 
 const MIXPANEL_API_PATTERN = /\/\/(api|api\-js)\.mixpanel\.com\/(track|engage)/i;
