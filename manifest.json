@@ -15,7 +15,6 @@
         ]
     },
     "permissions": [
-        "activeTab",
         "http://api.mixpanel.com/*",
         "https://api.mixpanel.com/*",
         "https://api-js.mixpanel.com/*",
