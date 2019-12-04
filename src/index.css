@@ -7,15 +7,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
-  background-color: #FFFFFF;
+  background-color: #fff;
 }
-
 
 .ui.main.fluid.container {
   margin-top: 4em;
-  border: 1px solid rgba(34,36,38,.15);
+  border: 1px solid rgba(34, 36, 38, 0.15);
   width: calc(100% - 10px);
-  padding: 0 ;
+  padding: 0;
 }
 
 .ui.menu .item img.logo {
@@ -33,18 +32,17 @@ body {
   cursor: pointer;
 }
 
-
 .item.active {
   background: rgba(65, 131, 196, 0.24);
   color: #444;
 }
-.item:hover{
-  background:rgba(65, 131, 196, 0.8);
-  color:#eee;
+.item:hover {
+  background: rgba(65, 131, 196, 0.8);
+  color: #eee;
 }
 
-.ui.menu .item:hover{
-  background:transparent !important;
+.ui.menu .item:hover {
+  background: transparent !important;
 }
 
 .ui.menu .item:before {
@@ -60,32 +58,32 @@ span.sl-no {
   font-weight: 700;
 }
 
-span.sl-no:after{
-  content:'.'
+span.sl-no:after {
+  content: ".";
 }
-
 
 .ui.internally.celled.grid {
-  min-height:50vh;
+  min-height: 50vh;
 }
 
-.ui.celled.grid>.row> .six.wide.column.event-column{
-  padding:0;
+.ui.celled.grid > .row > .six.wide.column.event-column {
+  padding: 0;
 }
-.ui.celled.grid>.row>.ten.wide.column.details-column {
-  padding:0;
+.ui.celled.grid > .row > .ten.wide.column.details-column {
+  padding: 0;
 }
 
-.event-column h3,.details-column h3{
-  margin:0;
-  padding:0.5rem 0;
+.event-column h3,
+.details-column h3 {
+  margin: 0;
+  padding: 0.5rem 0;
   text-align: center;
   background: #4183c4;
   color: #fff;
 }
 
 div#event-list {
-  margin:0.1rem 0;
+  margin: 0.1rem 0;
 }
 
 table#property-table {
@@ -93,7 +91,7 @@ table#property-table {
 }
 
 table#property-table {
-  margin:0.1rem 0;
+  margin: 0.1rem 0;
 }
 
 .table {
@@ -109,41 +107,36 @@ table td span {
   word-break: break-word;
 }
 
-
-.check{
-  color:green;
+.check {
+  color: green;
 }
 
 .led {
   color: hsla(339, 100%, 48%, 0.9);
-  -webkit-animation: led .8s infinite;
-  -moz-animation: led .8s infinite;
-  -ms-animation: led .8s infinite;
-  -o-animation: led .8s infinite;
-  animation: led .8s infinite;
+  -webkit-animation: led 0.8s infinite;
+  -moz-animation: led 0.8s infinite;
+  -ms-animation: led 0.8s infinite;
+  -o-animation: led 0.8s infinite;
+  animation: led 0.8s infinite;
 }
 
 /* keyframes */
 @-webkit-keyframes led {
   from {
-    opacity:.2;
+    opacity: 0.2;
   }
-  
+
   to {
-    opacity:1;
+    opacity: 1;
   }
 }
 
 @keyframes led {
   from {
-    opacity:.2;
+    opacity: 0.2;
   }
-  
+
   to {
-    opacity:1;
+    opacity: 1;
   }
 }
-
-
-
-
