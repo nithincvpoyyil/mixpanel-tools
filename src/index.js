@@ -1,5 +1,12 @@
-
-
+/**
+ * MixpanelTool chrome extension
+ * 
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @classname MixpanelTool
+ */
 class MixpanelTool {
     constructor() {
         this.state = {
@@ -9,26 +16,8 @@ class MixpanelTool {
             omitMixpanelProperty: true,
             record: true
         };
-
-        this.mixpanelEventAPIPattern = "//api.mixpanel.com/track";
-        this.mixpanelPeopleAPIPattern = "//api.mixpanel.com/engage";
-        this.mixpanelProperties = [
-            "$os",
-            "$browser",
-            "$referrer",
-            "$referring_domain",
-            "$current_url",
-            "$browser_version",
-            "$screen_height",
-            "$screen_width",
-            "mp_lib",
-            "$lib_version",
-            "distinct_id",
-            "$initial_referrer",
-            "$initial_referring_domain",
-            "token",
-            "$duration",
-            "$__c"];
+        this.mixpanelAPIPattern = MIXPANEL_API_PATTERN;
+        this.mixpanelProperties = MIXPANEL_PROPERTIES;
         this.bindEvents();
     }
 
@@ -54,7 +43,7 @@ class MixpanelTool {
                 }
             });
             $(".download-btn").off("click").on("click", () => {
-                this.downloadObjectAsJson(this.state.requests, "request-list-mixpaneltool.json")
+                this.downloadObjectAsJson(this.state.requests, "request-list-mixpaneltool.json");
             });
         });
     }
@@ -68,7 +57,6 @@ class MixpanelTool {
         downloadAnchorNode.click();
         downloadAnchorNode.remove();
     }
-
 
     handleMixpanelRequest(requestObject) {
         if (this.state.record && this.isRequestValid(requestObject)) {
@@ -88,9 +76,7 @@ class MixpanelTool {
 
     isRequestValid(requestObject) {
         if (requestObject && requestObject.request && requestObject.request.url) {
-            return (requestObject.request.url.indexOf(this.mixpanelEventAPIPattern) > -1)
-                || (requestObject.request.url.indexOf(this.mixpanelPeopleAPIPattern) > -1);
-
+            return this.mixpanelAPIPattern.test(requestObject.request.url);
         }
         return false;
     }
@@ -145,7 +131,6 @@ class MixpanelTool {
         return $(rowTemplate);
     }
 
-
     displayRequest(key, isSelected) {
         let node = this.getItemNode(key, this.state.count, this.state.requests[key].data.event);
         node.off("click").on("click", (event) => {
@@ -186,19 +171,12 @@ class MixpanelTool {
         });
 
     }
-
-    renderProperties() {
-
-    }
-
-    onSelectOfRequest() {
-
-    }
 }
 
-
+// ready function for jQuery
 $(function () {
-    //ready function for jQuery
+    // create mixpanel tool instance
     const mixpanelTool = new MixpanelTool();
-    new DevToolNetworkListner(request => mixpanelTool.handleMixpanelRequest(request));
+    //subscribe to network requests and  detect mixpanel events
+    devToolsNetworkListner(request => mixpanelTool.handleMixpanelRequest(request));
 });

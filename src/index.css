@@ -53,12 +53,12 @@ body {
   padding: 5px;
 }
 
-span.sl-no {
+.sl-no {
   margin-right: 5px;
   font-weight: 700;
 }
 
-span.sl-no:after {
+.sl-no:after {
   content: ".";
 }
 
@@ -82,17 +82,15 @@ span.sl-no:after {
   color: #fff;
 }
 
-div#event-list {
+#event-list {
   margin: 0.1rem 0;
 }
 
-table#property-table {
+#property-table {
   border: none !important;
-}
-
-table#property-table {
   margin: 0.1rem 0;
 }
+
 
 .table {
   display: none;

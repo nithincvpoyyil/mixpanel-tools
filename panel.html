@@ -8,17 +8,23 @@
   <body>
     <div class="ui fixed menu">
       <div class="ui menu fluid container">
-		<div class="ui menu fluid container">
-			<a href="#" class="header item">
-				<img class="logo" src="assets/images/logo.png">
-				Mixpanel Tools
-			</a>
-			<a href="#" class="item record-btn"><i class="led circle icon"></i></a>
-			<a href="#" class="item clear-all-btn"><i class="eraser icon"></i></a>
-			<a href="#" class="item mixpanel-properties-btn">Hide Mixpanel Properties: <i class=" check square outline icon"></i></a>
-			<a href="#" class="item download-btn"> <i class="download icon"></i> </a>
-
-		</div>
+        <div class="ui menu fluid container">
+          <a href="#" class="header item">
+            <img class="logo" src="assets/images/logo.png" />
+            Mixpanel Tools
+          </a>
+          <a href="#" class="item record-btn"
+            ><i class="led circle icon"></i
+          ></a>
+          <a href="#" class="item clear-all-btn"><i class="eraser icon"></i></a>
+          <a href="#" class="item mixpanel-properties-btn"
+            >Hide Mixpanel Properties: <i class=" check square outline icon"></i
+          ></a>
+          <a href="#" class="item download-btn">
+            <i class="download icon"></i>
+          </a>
+        </div>
+      </div>
     </div>
     <section id="root" class="ui main fluid container">
       <div class="ui internally celled grid">
@@ -36,9 +42,11 @@
         </div>
       </div>
     </section>
+    <!-- do not remove, this '<a/>'' is for creating downloads -->
     <a id="download-anchor-node" style="display:none"></a>
     <script src="./libs/jquery-3.3.1.min.js"></script>
     <script src="./libs/semantic.min.js"></script>
+    <script src="./src/constants.js"></script>
     <script src="./src/utils/devtool.util.js"></script>
     <script src="./src/index.js"></script>
   </body>

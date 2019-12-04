@@ -4,12 +4,20 @@
 // chrome.devtools.*
 // chrome.extension.*
 
-
+/**
+ * This just a POC Code
+ */
 var i = 0;
 const appendData = (data) => {
     var dateSpan = document.createElement('div');
     dateSpan.innerHTML = data;
     document.querySelector('#mixpanel-tool').appendChild(dateSpan);
+};
+
+const logMessage = (...args)=>{
+  console.group("Mixapnel Tolos");
+  console.log(...args);
+  console.groupEnd();
 };
 
 // request chnage
@@ -18,7 +26,8 @@ chrome.devtools.network.onRequestFinished.addListener(function (request) {
     var params = request;
     params.requestId = i;
     i++;
-    console.log('request', request);
+    logMessage('request', request);
+
     if (params.request.url.indexOf("api.mixpanel.com/track/?data=") > -1 || params.request.url.indexOf("api.mixpanel.com/engage/?data=") > -1) {
 
         requests = [];
@@ -39,8 +48,9 @@ chrome.devtools.network.onRequestFinished.addListener(function (request) {
         var re = new RegExp("%3D", 'g');
         tests = tests.replace(re, "");
         var tracking = atob(tests);
-        console.log(JSON.parse(tracking));
+    
         var data = JSON.parse(tracking);
+        logMessage("tracking data:",data);
 
         appendData(JSON.stringify(data, null, 2));
 

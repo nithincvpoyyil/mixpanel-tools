@@ -17,7 +17,10 @@
     "permissions": [
         "activeTab",
         "http://api.mixpanel.com/*",
-        "https://api.mixpanel.com/*"
+        "https://api.mixpanel.com/*",
+        "https://api-js.mixpanel.com/*",
+        "http://api-js.mixpanel.com/*"
+
     ],
     "manifest_version": 2
 }
