@@ -10,6 +10,36 @@ body {
   background-color: #fff;
 }
 
+#scroll-up-btn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 18px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  color: #4183c4;
+  transition: all 0.3s ease-in;
+}
+
+#scroll-up-btn:hover {
+  color: #ea3511;
+}
+
+#scroll-up-btn svg {
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
 .ui.main.fluid.container {
   margin-top: 4em;
   border: 1px solid rgba(34, 36, 38, 0.15);
@@ -90,7 +120,6 @@ body {
   border: none !important;
   margin: 0.1rem 0;
 }
-
 
 .table {
   display: none;
