@@ -100,7 +100,7 @@ class MixpanelTool {
 
     addRequest(mixpanelRequest) {
         ++this.state.count;
-        let key = "key-" + this.state.count;
+        let key = "event-" + this.state.count;
         this.state.requests[key] = mixpanelRequest;
         //initialise the data if it is first valid request
         if (this.state.count == 1) {
