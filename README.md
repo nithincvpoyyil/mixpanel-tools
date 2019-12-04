@@ -12,6 +12,8 @@ Chrome extenstion to debug mixpanel analytics calls from your web application.
 * Hide and show mixpanel properties
 * Download JSON file of recorded events
 * Record/Pause Buttons
+* [Integrated Mixpanel API changes](https://github.com/nithincvpoyyil/mixpanel-tools/pull/3), thanks to aonic[https://github.com/aonic]
+
 
 ## Application Link
 
