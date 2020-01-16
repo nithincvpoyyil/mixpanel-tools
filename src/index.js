@@ -88,7 +88,12 @@ class MixpanelTool {
     if (this.state.record && this.isRequestValid(requestObject)) {
       let properties = {};
       try {
-        let urlParams = this.getUrlParams(requestObject);
+        let urlParams;
+        if (requestObject.request.method === 'POST') {
+          urlParams = this.getQueryStringParams(requestObject.request.postData && requestObject.request.postData.text);
+        } else {
+          urlParams = this.getUrlParams(requestObject);
+        }
         properties = this.getProperties(urlParams.data);
         urlParams.data = properties;
         this.addRequest(urlParams);
