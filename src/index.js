@@ -105,19 +105,26 @@ class MixpanelTool {
     return false;
   }
 
+  getQueryStringParams = query => {
+    return query
+        ? (/^[?#]/.test(query) ? query.slice(1) : query)
+            .split('&')
+            .reduce((params, param) => {
+                  let [key, value] = param.split('=');
+                  params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
+                  return params;
+                }, {}
+            )
+        : {}
+  };
+
   getUrlParams(requestObject) {
     if (
       requestObject &&
-      requestObject.request &&
-      requestObject.request.queryString
+      requestObject.request
     ) {
-      return requestObject.request.queryString.reduce(
-        (properties, newProperty) => {
-          properties[newProperty.name] = newProperty.value;
-          return properties;
-        },
-        {}
-      );
+      const query = requestObject.request.url.split('?')[1];
+      return this.getQueryStringParams(query);
     } else {
       return {};
     }
