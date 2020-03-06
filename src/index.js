@@ -89,7 +89,7 @@ class MixpanelTool {
       let properties = {};
       try {
         let urlParams = this.getUrlParams(requestObject);
-        properties = this.getProperties(urlParams.data);
+        properties = this.getProperties(this.getDataParams(requestObject));
         urlParams.data = properties;
         this.addRequest(urlParams);
       } catch (error) {
@@ -104,7 +104,7 @@ class MixpanelTool {
     }
     return false;
   }
-
+  
   getUrlParams(requestObject) {
     if (
       requestObject &&
@@ -118,6 +118,18 @@ class MixpanelTool {
         },
         {}
       );
+    } else {
+      return {};
+    }
+  }
+
+  getDataParams(requestObject) {
+    if (
+      requestObject &&
+      requestObject.request &&
+      requestObject.request.postData
+    ) {
+      return requestObject.request.postData.params.reduce(e => {return e.name == 'data'}).value
     } else {
       return {};
     }
