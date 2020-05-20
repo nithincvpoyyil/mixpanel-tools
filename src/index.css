@@ -80,6 +80,11 @@ body {
   background: transparent !important;
 }
 
+.ui.menu .item.batched-request{
+  visibility: hidden;
+  font-weight: 500;
+}
+
 .content {
   padding: 5px;
 }
