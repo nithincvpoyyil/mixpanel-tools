@@ -25,6 +25,7 @@ body {
   border-radius: 50%;
   color: #4183c4;
   transition: all 0.3s ease-in;
+  background-color: transparent;
 }
 
 #scroll-up-btn:hover {

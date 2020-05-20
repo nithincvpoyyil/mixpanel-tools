@@ -21,7 +21,11 @@ const MIXPANEL_PROPERTIES = [
   "$initial_referring_domain",
   "token",
   "$duration",
-  "$__c"
+  "$__c",
+  "$user_id",
+  "$insert_id",
+  "$device_id",
+  "$anon_distinct_id"
 ];
 
 // API changes based on the PR from @aonic - https://github.com/nithincvpoyyil/mixpanel-tools/pull/3
