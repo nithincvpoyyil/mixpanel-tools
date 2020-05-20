@@ -13,15 +13,18 @@
             <img class="logo" src="assets/images/logo.png" />
             Mixpanel Tools
           </a>
-          <a href="#" class="item record-btn"
+          <a href="#" title="enable or disable recording" class="item record-btn"
             ><i class="led circle icon"></i
           ></a>
-          <a href="#" class="item clear-all-btn"><i class="eraser icon"></i></a>
-          <a href="#" class="item mixpanel-properties-btn"
+          <a href="#" title="clear all recording" class="item clear-all-btn"><i class="eraser icon"></i></a>
+          <a href="#" class="item mixpanel-properties-btn" title="show or hide mixpanel properties associated with event"
             >Hide Mixpanel Properties: <i class=" check square outline icon"></i
           ></a>
-          <a href="#" class="item download-btn">
+          <a href="#" class="item download-btn" title="download all recording in JSON">
             <i class="download icon"></i>
+          </a>
+          <a href="#" class="item batched-request" id="batched-request-id" title="Info: requests are batched">
+            <span class="batched-text">Batch Requests Enabled:</span><i class=" check square icon"></i>
           </a>
         </div>
       </div>

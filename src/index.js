@@ -66,6 +66,10 @@ class MixpanelTool {
     });
   }
 
+  showBatchedRequestsAreEnabled() {
+    $("#batched-request-id").css("visibility", "visible");
+  }
+
   downloadObjectAsJson(exportObj, exportName) {
     var dataStr =
       "data:text/json;charset=utf-8," +
@@ -77,6 +81,7 @@ class MixpanelTool {
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
   }
+
   /**
    * handling mixpanel requests
    *
@@ -106,10 +111,11 @@ class MixpanelTool {
           base64EncodedData = this.getDataParams(requestObject);
           urlParams = this.getUrlParams(requestObject);
           properties = this.getProperties(base64EncodedData);
-          
+
           // check properties are request-batching/queueing/retry - batch_requests: true,
           // ref: https://developer.mixpanel.com/docs/javascript-full-api-reference
           if (Array.isArray(properties)) {
+            this.showBatchedRequestsAreEnabled(); // show notification
             properties.forEach((property) => {
               if (property.event) {
                 mixpanelRequest = Object.assign({}, urlParams, {
