@@ -14,7 +14,7 @@ class MixpanelTool {
       selectedRequest: {},
       count: 0,
       omitMixpanelProperty: true,
-      record: true
+      record: true,
     };
     this.mixpanelAPIPattern = MIXPANEL_API_PATTERN;
     this.mixpanelProperties = MIXPANEL_PROPERTIES;
@@ -25,12 +25,10 @@ class MixpanelTool {
     $(() => {
       $(".record-btn")
         .off("click")
-        .on("click", event => {
+        .on("click", (event) => {
           if (event.currentTarget) {
             this.state.record = !this.state.record;
-            $(event.currentTarget)
-              .find(".icon")
-              .toggleClass("led");
+            $(event.currentTarget).find(".icon").toggleClass("led");
           }
         });
       $(".clear-all-btn")
@@ -39,19 +37,15 @@ class MixpanelTool {
           this.state.requests = {};
           this.state.selectedRequest = {};
           this.state.count = 0;
-          $("#property-table")
-            .find("tbody")
-            .html("");
+          $("#property-table").find("tbody").html("");
           $("#event-list").html("");
         });
       $(".mixpanel-properties-btn")
         .off("click")
-        .on("click", event => {
+        .on("click", (event) => {
           if (event.currentTarget) {
             this.state.omitMixpanelProperty = !this.state.omitMixpanelProperty;
-            $(event.currentTarget)
-              .find(".icon")
-              .toggleClass("check");
+            $(event.currentTarget).find(".icon").toggleClass("check");
           }
         });
       $(".download-btn")
@@ -83,17 +77,59 @@ class MixpanelTool {
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
   }
-
+  /**
+   * handling mixpanel requests
+   *
+   * @param {*} requestObject
+   * @memberof MixpanelTool
+   */
   handleMixpanelRequest(requestObject) {
     if (this.state.record && this.isRequestValid(requestObject)) {
       let properties = {};
+      let base64EncodedData = "";
+      let mixpanelRequest = {};
+      let urlParams = "";
+
       try {
-        let urlParams = this.getUrlParams(requestObject);
-        properties = this.getProperties(urlParams.data);
-        urlParams.data = properties;
-        this.addRequest(urlParams);
+        /* currently 3 methods are allowed-methods GET,POST & OPTIONS */
+
+        // GET
+        if (requestObject.request.method === "GET") {
+          urlParams = this.getUrlParams(requestObject);
+          base64EncodedData = urlParams.data || "";
+          properties = this.getProperties(base64EncodedData);
+          mixpanelRequest = Object.assign({}, urlParams, { data: properties });
+          this.addRequest(mixpanelRequest);
+        }
+        // POST
+        if (requestObject.request.method === "POST") {
+          base64EncodedData = this.getDataParams(requestObject);
+          urlParams = this.getUrlParams(requestObject);
+          properties = this.getProperties(base64EncodedData);
+          
+          // check properties are request-batching/queueing/retry - batch_requests: true,
+          // ref: https://developer.mixpanel.com/docs/javascript-full-api-reference
+          if (Array.isArray(properties)) {
+            properties.forEach((property) => {
+              if (property.event) {
+                mixpanelRequest = Object.assign({}, urlParams, {
+                  data: property,
+                });
+                this.addRequest(mixpanelRequest);
+              }
+            });
+          } else {
+            // check properties are request-batching/queueing/retry - batch_requests: false,
+            if (properties.event) {
+              mixpanelRequest = Object.assign({}, urlParams, {
+                data: properties,
+              });
+              this.addRequest(mixpanelRequest);
+            }
+          }
+        }
       } catch (error) {
-        properties = {};
+        console.error("error", error);
       }
     }
   }
@@ -120,6 +156,23 @@ class MixpanelTool {
       );
     } else {
       return {};
+    }
+  }
+
+  getDataParams(requestObject) {
+    if (
+      requestObject &&
+      requestObject.request &&
+      requestObject.request.postData
+    ) {
+      let params = requestObject.request.postData.params;
+      params = Array.isArray(params) ? params : [];
+      /* params is the array of {name , value  } object */
+      return params.reduce((param) => {
+        return param.name == "data";
+      }).value;
+    } else {
+      return "";
     }
   }
 
@@ -165,13 +218,11 @@ class MixpanelTool {
       this.state.count,
       this.state.requests[key].data.event
     );
-    node.off("click").on("click", event => {
+    node.off("click").on("click", (event) => {
       if (event.currentTarget && event.currentTarget.getAttribute) {
         let keyValue = event.currentTarget.getAttribute("data-key");
         $(".item").removeClass("active");
-        $(event.currentTarget)
-          .removeClass("active")
-          .addClass("active");
+        $(event.currentTarget).removeClass("active").addClass("active");
         this.displayProperties(keyValue);
       }
     });
@@ -193,7 +244,7 @@ class MixpanelTool {
     tableBodyNode.html("");
     let requestObject = this.state.requests[key].data;
 
-    Object.keys(requestObject.properties).filter(objKey => {
+    Object.keys(requestObject.properties).filter((objKey) => {
       if (this.isMixpanelProperty(objKey) && this.state.omitMixpanelProperty) {
         return;
       }
@@ -210,13 +261,13 @@ class MixpanelTool {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   }
 
   manageScrollToTop() {
     // When the user scrolls down 20px from the top of the document, show the button
-    window.onscroll = function() {
+    window.onscroll = function () {
       scrollFunction();
     };
 
@@ -234,11 +285,11 @@ class MixpanelTool {
 }
 
 // ready function for jQuery
-$(function() {
+$(function () {
   // create mixpanel tool instance
   const mixpanelTool = new MixpanelTool();
   //subscribe to network requests and  detect mixpanel events
-  devToolsNetworkListner(request =>
+  devToolsNetworkListner((request) =>
     mixpanelTool.handleMixpanelRequest(request)
   );
 });
