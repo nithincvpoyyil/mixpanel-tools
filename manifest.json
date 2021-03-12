@@ -1,6 +1,6 @@
 {
     "name": "Mixpanel Tools",
-    "version": "0.5",
+    "version": "0.7",
     "description": "A debugger tool helps to intercept mixpanel events and display event properties",
     "short_name": "mixpanel tools",
     "icons": {
@@ -14,8 +14,6 @@
             "background.js"
         ]
     },
-    "permissions": [
-        "activeTab"
-    ],
+    "permissions": [],
     "manifest_version": 2
 }
