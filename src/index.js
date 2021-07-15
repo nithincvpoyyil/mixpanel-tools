@@ -13,6 +13,7 @@ class MixpanelTool {
       requests: {},
       selectedRequest: {},
       count: 0,
+      customAPIHost: "",
       omitMixpanelProperty: true,
       record: true,
     };
@@ -56,6 +57,13 @@ class MixpanelTool {
             "request-list-mixpaneltool.json"
           );
         });
+      $("#custom-api-host-input")
+        .off("input")
+        .on("input", (event) => {
+          let value = event && event.target ? event.target.value : "";
+          this.customAPIHost = value.trim().toLowerCase();
+        });
+
       $("#scroll-up-btn")
         .off("click")
         .on("click", () => {
@@ -103,7 +111,9 @@ class MixpanelTool {
           urlParams = this.getUrlParams(requestObject);
           base64EncodedData = urlParams.data || "";
           properties = this.getProperties(base64EncodedData);
-          mixpanelRequest = Object.assign({}, urlParams, { data: properties });
+          mixpanelRequest = Object.assign({}, urlParams, {
+            data: properties
+          });
           this.addRequest(mixpanelRequest);
         }
         // POST
@@ -142,8 +152,15 @@ class MixpanelTool {
 
   isRequestValid(requestObject) {
     if (requestObject && requestObject.request && requestObject.request.url) {
-      return this.mixpanelAPIPattern.test(requestObject.request.url);
+      let isMixpanelURL = this.mixpanelAPIPattern.test(requestObject.request.url);
+      let customAPIHost = this.customAPIHost;
+      if (isMixpanelURL) {
+        return true;
+      } else if (customAPIHost && requestObject.request.url.include(customAPIHost)) {
+        return true;
+      }
     }
+
     return false;
   }
 
@@ -157,8 +174,7 @@ class MixpanelTool {
         (properties, newProperty) => {
           properties[newProperty.name] = newProperty.value;
           return properties;
-        },
-        {}
+        }, {}
       );
     } else {
       return {};
