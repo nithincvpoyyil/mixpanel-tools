@@ -156,7 +156,7 @@ class MixpanelTool {
       let customAPIHost = this.customAPIHost;
       if (isMixpanelURL) {
         return true;
-      } else if (customAPIHost && requestObject.request.url.include(customAPIHost)) {
+      } else if (customAPIHost && requestObject.request.url.includes(customAPIHost)) {
         return true;
       }
     }
