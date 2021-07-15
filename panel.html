@@ -1,61 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link href="./libs/semantic.min.css" rel="stylesheet" />
-    <link href="./src/index.css" rel="stylesheet" />
-  </head>
 
-  <body>
-    <div class="ui fixed menu">
+<head>
+  <link href="./libs/semantic.min.css" rel="stylesheet" />
+  <link href="./src/index.css" rel="stylesheet" />
+</head>
+
+<body>
+  <nav class="ui fixed menu">
+    <div class="ui menu fluid container">
       <div class="ui menu fluid container">
-        <div class="ui menu fluid container">
-          <a href="https://github.com/nithincvpoyyil/mixpanel-tools" target="_blank" class="header item">
-            <img class="logo" src="assets/images/logo.png" />
-            Mixpanel Tools
-          </a>
-          <a href="#" title="enable or disable recording" class="item record-btn"
-            ><i class="led circle icon"></i
-          ></a>
-          <a href="#" title="clear all recording" class="item clear-all-btn"><i class="eraser icon"></i></a>
-          <a href="#" class="item mixpanel-properties-btn" title="show or hide mixpanel properties associated with event"
-            >Hide Mixpanel Properties: <i class=" check square outline icon"></i
-          ></a>
-          <a href="#" class="item download-btn" title="download all recording in JSON">
-            <i class="download icon"></i>
-          </a>
-          <a href="#" class="item batched-request" id="batched-request-id" title="Info: requests are batched">
-            <span class="batched-text">Batch Requests Enabled:</span><i class=" check square icon"></i>
-          </a>
+        <a href="https://github.com/nithincvpoyyil/mixpanel-tools" target="_blank" class="header item" tabindex="0">
+          <img class="logo" src="assets/images/logo.png" aria-hidden="true" />
+          Mixpanel Tools
+        </a>
+        <a role="button" title="enable or disable recording" class="item record-btn">
+          <i aria-hidden="true" class="led circle icon"></i></a>
+        <a role="button" title="clear all recording" class="item clear-all-btn">
+          <i aria-hidden="true" class="eraser icon"></i></a>
+        <a role="button" class="item mixpanel-properties-btn"
+          title="show or hide mixpanel properties associated with event">
+          Hide Mixpanel Properties: <i class=" check square outline icon" aria-hidden="true"></i></a>
+        <a role="button" class="item download-btn" title="download all recording in JSON">
+          <i aria-hidden="true" class="download icon"></i>
+        </a>
+
+        <div class="item api-url-regex">
+          <div class="ui icon input" >
+            <input type="text" placeholder="Add self-hosted URL..." id="custom-api-host-input" title="Add your self-hosted URL,like `http://proxy:8080/mixpanel`. (note - not regex, this is using a string include logic">
+            <i class="cogs icon"></i>
+          </div>
+        </div>
+
+        <a role="text" class="item batched-request" id="batched-request-id" title="Info: requests are batched">
+          <span class="batched-text">Batch Requests Enabled:</span><i aria-hidden="true" class=" check square icon"></i>
+        </a>
+
+      </div>
+    </div>
+  </nav>
+  <!-- event container -->
+  <section id="root" class="ui main fluid container">
+    <div class="ui internally celled grid">
+      <div class="row">
+        <div class="six wide column event-column">
+          <h3>Events</h3>
+          <div class="ui relaxed divided list" id="event-list"></div>
+        </div>
+        <div class="ten wide column details-column">
+          <h3>Properties</h3>
+          <table class="ui fixed table striped" id="property-table">
+            <tbody></tbody>
+          </table>
         </div>
       </div>
     </div>
-    <section id="root" class="ui main fluid container">
-      <div class="ui internally celled grid">
-        <div class="row">
-          <div class="six wide column event-column">
-            <h3>Events</h3>
-            <div class="ui relaxed divided list" id="event-list"></div>
-          </div>
-          <div class="ten wide column details-column">
-            <h3>Properties</h3>
-            <table class="ui fixed table striped" id="property-table">
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- do not remove, this '<a/>'' is for creating downloads -->
-    <a id="download-anchor-node" style="display:none"></a>
-    <button id="scroll-up-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
-          <path style="fill:currentColor;fill-opacity:1;stroke:none" d="M 11 3 C 6.568 3 3 6.568 3 11 C 3 15.432 6.568 19 11 19 C 15.432 19 19 15.432 19 11 C 19 6.568 15.432 3 11 3 z M 11 4 C 14.878 4 18 7.122 18 11 C 18 14.878 14.878 18 11 18 C 7.122 18 4 14.878 4 11 C 4 7.122 7.122 4 11 4 z M 12.292969 7 L 9 10.292969 L 8.2929688 11 L 9 11.707031 L 12.292969 15 L 13 14.292969 L 9.7070312 11 L 13 7.7070312 L 12.292969 7 z " class="ColorScheme-Text"/>
-      </svg>
-    </button>
-    <script src="./libs/jquery-3.3.1.min.js"></script>
-    <script src="./libs/semantic.min.js"></script>
-    <script src="./src/constants.js"></script>
-    <script src="./src/utils/devtool.util.js"></script>
-    <script src="./src/index.js"></script>
-  </body>
+  </section>
+  <!-- event container -->
+
+  <!-- do not remove, this '<a/>'' is for creating downloads -->
+  <a id="download-anchor-node" style="display:none"></a>
+
+  <!-- Scroll up button -->
+  <button id="scroll-up-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+      <path style="fill:currentColor;fill-opacity:1;stroke:none"
+        d="M 11 3 C 6.568 3 3 6.568 3 11 C 3 15.432 6.568 19 11 19 C 15.432 19 19 15.432 19 11 C 19 6.568 15.432 3 11 3 z M 11 4 C 14.878 4 18 7.122 18 11 C 18 14.878 14.878 18 11 18 C 7.122 18 4 14.878 4 11 C 4 7.122 7.122 4 11 4 z M 12.292969 7 L 9 10.292969 L 8.2929688 11 L 9 11.707031 L 12.292969 15 L 13 14.292969 L 9.7070312 11 L 13 7.7070312 L 12.292969 7 z "
+        class="ColorScheme-Text" />
+    </svg>
+  </button>
+  <!-- /Scroll up button -->
+  <script src="./libs/jquery-3.3.1.min.js"></script>
+  <script src="./libs/semantic.min.js"></script>
+  <script src="./src/constants.js"></script>
+  <script src="./src/utils/devtool.util.js"></script>
+  <script src="./src/index.js"></script>
+</body>
+
 </html>
