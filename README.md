@@ -12,6 +12,8 @@ Chrome extenstion to debug mixpanel analytics calls from your web application.
 * Hide and show mixpanel properties
 * Download JSON file of recorded events
 * Record/Pause Buttons
+* Support for GET, POST & Batched requests
+* Supports self-hosted API / Proxy servers
 
 
 
@@ -21,8 +23,8 @@ Please visit [chrome webstore](https://chrome.google.com/webstore/detail/mixpane
 
 ## Contributors & Changes  
 
-* Integrated Mixpanel API [changes](https://github.com/nithincvpoyyil/mixpanel-tools/pull/3) by [@aonic](https://github.com/aonic)
-* Mixpanel API [changes](https://github.com/nithincvpoyyil/mixpanel-tools/pull/12) by [@sachinmour](https://github.com/sachinmour), [@altryne](https://github.com/altryne)
+* [#3](https://github.com/nithincvpoyyil/mixpanel-tools/pull/3) by [@aonic](https://github.com/aonic)
+* [#12](https://github.com/nithincvpoyyil/mixpanel-tools/pull/12) by [@sachinmour](https://github.com/sachinmour) & [@altryne](https://github.com/altryne)
 
 
 ## For Developers  - Getting Started
