@@ -99,7 +99,7 @@ class MixpanelTool {
   handleMixpanelRequest(requestObject) {
     if (this.state.record && this.isRequestValid(requestObject)) {
       let properties = {};
-      let base64EncodedData = "";
+      let encodedData = "";
       let mixpanelRequest = {};
       let urlParams = "";
 
@@ -109,8 +109,8 @@ class MixpanelTool {
         // GET
         if (requestObject.request.method === "GET") {
           urlParams = this.getUrlParams(requestObject);
-          base64EncodedData = urlParams.data || "";
-          properties = this.getProperties(base64EncodedData);
+          encodedData = urlParams.data || "";
+          properties = this.getProperties(encodedData);
           mixpanelRequest = Object.assign({}, urlParams, {
             data: properties
           });
@@ -118,9 +118,9 @@ class MixpanelTool {
         }
         // POST
         if (requestObject.request.method === "POST") {
-          base64EncodedData = this.getDataParams(requestObject);
+          encodedData = this.getDataParams(requestObject);
           urlParams = this.getUrlParams(requestObject);
-          properties = this.getProperties(base64EncodedData);
+          properties = this.getProperties(encodedData);
 
           // check properties are request-batching/queueing/retry - batch_requests: true,
           // ref: https://developer.mixpanel.com/docs/javascript-full-api-reference
@@ -198,8 +198,14 @@ class MixpanelTool {
     }
   }
 
+  base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+  
   getProperties(dataParam) {
-    return JSON.parse(atob(decodeURIComponent(dataParam)));
+    let dataStr = decodeURIComponent(dataParam);
+    if(base64regex.test(dataStr)) {
+      dataStr = atob(dataStr);
+    }
+    return JSON.parse(dataStr);
   }
 
   addRequest(mixpanelRequest) {
