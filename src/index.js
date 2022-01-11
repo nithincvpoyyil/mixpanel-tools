@@ -202,7 +202,7 @@ class MixpanelTool {
   
   getProperties(dataParam) {
     let dataStr = decodeURIComponent(dataParam);
-    if(base64regex.test(dataStr)) {
+    if(this.base64regex.test(dataStr)) {
       dataStr = atob(dataStr);
     }
     return JSON.parse(dataStr);
