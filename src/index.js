@@ -8,6 +8,7 @@
  * @classname MixpanelTool
  */
 class MixpanelTool {
+
   constructor() {
     this.state = {
       requests: {},
@@ -198,10 +199,16 @@ class MixpanelTool {
     }
   }
 
+  /*
+   Ref: https://github.com/mixpanel/mixpanel-js/releases/tag/v2.43.0
+   Mixpanel has changed the payload ecoding format, by default JSON string will be
+   passed, unless api_payload_format:true is specified. 
+  */ 
   base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
   
   getProperties(dataParam) {
     let dataStr = decodeURIComponent(dataParam);
+    // if Base64
     if(this.base64regex.test(dataStr)) {
       dataStr = atob(dataStr);
     }
