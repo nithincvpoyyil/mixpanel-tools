@@ -7,14 +7,14 @@
  *
  * @classname MixpanelTool
  */
-class MixpanelTool {
 
-  constructor() {
+class MixpanelTool {
+  constructor(customAPIHost) {
     this.state = {
       requests: {},
       selectedRequest: {},
       count: 0,
-      customAPIHost: "",
+      customAPIHost: customAPIHost || "",
       omitMixpanelProperty: true,
       record: true,
     };
@@ -62,16 +62,30 @@ class MixpanelTool {
         .off("input")
         .on("input", (event) => {
           let value = event && event.target ? event.target.value : "";
-          this.customAPIHost = value.trim().toLowerCase();
+          const customAPIHost = value.trim().toLowerCase();
+          this.customAPIHost = customAPIHost;
+          saveCustomHost(customAPIHost);
         });
+
+      $("#custom-api-host-input").val(this.state.customAPIHost || "");
 
       $("#scroll-up-btn")
         .off("click")
         .on("click", () => {
           this.scrollToTop();
         });
-      // register scroll
-      this.manageScrollToTop();
+
+      $("#details-column")
+        .off("scroll")
+        .on("scroll", (e) => {
+          const isScrollable = e.target.clientHeight < e.target.scrollHeight;
+          console.log(e, isScrollable);
+          if (isScrollable && e.target.scrollTop > 50) {
+            $("#scroll-up-btn").show();
+          } else {
+            $("#scroll-up-btn").hide();
+          }
+        });
     });
   }
 
@@ -113,7 +127,7 @@ class MixpanelTool {
           encodedData = urlParams.data || "";
           properties = this.getProperties(encodedData);
           mixpanelRequest = Object.assign({}, urlParams, {
-            data: properties
+            data: properties,
           });
           this.addRequest(mixpanelRequest);
         }
@@ -153,11 +167,16 @@ class MixpanelTool {
 
   isRequestValid(requestObject) {
     if (requestObject && requestObject.request && requestObject.request.url) {
-      let isMixpanelURL = this.mixpanelAPIPattern.test(requestObject.request.url);
+      let isMixpanelURL = this.mixpanelAPIPattern.test(
+        requestObject.request.url
+      );
       let customAPIHost = this.customAPIHost;
       if (isMixpanelURL) {
         return true;
-      } else if (customAPIHost && requestObject.request.url.includes(customAPIHost)) {
+      } else if (
+        customAPIHost &&
+        requestObject.request.url.includes(customAPIHost)
+      ) {
         return true;
       }
     }
@@ -175,7 +194,8 @@ class MixpanelTool {
         (properties, newProperty) => {
           properties[newProperty.name] = newProperty.value;
           return properties;
-        }, {}
+        },
+        {}
       );
     } else {
       return {};
@@ -203,13 +223,14 @@ class MixpanelTool {
    Ref: https://github.com/mixpanel/mixpanel-js/releases/tag/v2.43.0
    Mixpanel has changed the payload ecoding format, by default JSON string will be
    passed, unless api_payload_format:true is specified. 
-  */ 
-  base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
-  
+  */
+  base64regex =
+    /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+
   getProperties(dataParam) {
     let dataStr = decodeURIComponent(dataParam);
     // if Base64
-    if(this.base64regex.test(dataStr)) {
+    if (this.base64regex.test(dataStr)) {
       dataStr = atob(dataStr);
     }
     return JSON.parse(dataStr);
@@ -293,38 +314,75 @@ class MixpanelTool {
   }
 
   scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
+    $("#details-column").animate(
+      {
+        scrollTop: 0,
+      },
+      2000
+    );
   }
 
   manageScrollToTop() {
     // When the user scrolls down 20px from the top of the document, show the button
-    window.onscroll = function () {
-      scrollFunction();
-    };
-
-    function scrollFunction() {
-      if (
-        document.body.scrollTop > 50 ||
-        document.documentElement.scrollTop > 50
-      ) {
-        $("#scroll-up-btn").show();
-      } else {
-        $("#scroll-up-btn").hide();
-      }
+    const detailsColumn = document.querySelector("#details-column");
+    if (detailsColumn && detailsColumn.onscroll) {
+      detailsColumn.onscroll = () => {
+        console.log("onscroll");
+        if (detailsColumn.scrollTop > 50) {
+          $("#scroll-up-btn").show();
+        } else {
+          $("#scroll-up-btn").hide();
+        }
+      };
     }
   }
 }
 
+getSavedCustomHost = async () => {
+  try {
+    const result = await chrome.storage.sync.get("SAVED_URL_KEY");
+    const value = result.SAVED_URL_KEY;
+    if (!value || typeof value !== "string") {
+      throw Error("value undefined");
+    }
+    return value;
+  } catch (e) {
+    console.error("getSavedCustomHost", e);
+    return "";
+  }
+};
+
+const saveCustomHost = async (customHost) => {
+  try {
+    await chrome.storage.sync.set({ SAVED_URL_KEY: customHost });
+    return true;
+  } catch (e) {
+    console.error("saveCustomHost", e);
+    return false;
+  }
+};
+
 // ready function for jQuery
-$(function () {
-  // create mixpanel tool instance
-  const mixpanelTool = new MixpanelTool();
-  //subscribe to network requests and  detect mixpanel events
-  devToolsNetworkListner((request) =>
-    mixpanelTool.handleMixpanelRequest(request)
-  );
+$(() => {
+  getSavedCustomHost().then((customHost) => {
+    // create mixpanel tool instance
+    const mixpanelTool = new MixpanelTool(customHost);
+    //subscribe to network requests and  detect mixpanel events
+    devToolsNetworkListner((request) =>
+      mixpanelTool.handleMixpanelRequest(request)
+    );
+
+    for (let i = 1; i < 50; i++) {
+      let properties = {};
+      for (let j = 1; j < 500; j++) {
+        properties["test-property-" + j] =
+          i +
+          " new-valuenew- new-value new-valuenew-valuenew-value new-valuenew-valuenew-value valuenew-valuenew-valuenew-value new-valuenew-valuenew-value " +
+          j;
+      }
+      mixpanelTool.addRequest({
+        data: { properties, event: "event-" + i },
+      });
+    }
+  });
 });
