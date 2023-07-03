@@ -8,11 +8,10 @@ chrome.extension.*
 */
 
 chrome.extension.onConnect.addListener(function (port) {
-    
-    var extensionListener = (message, sender, sendResponse) => {
-        console.info('Message:', message, sender, sendResponse);
-    };
+  var extensionListener = (message, sender, sendResponse) => {
+    console.info("Message:", message, sender, sendResponse);
+  };
 
-    // Listens to messages sent from the panel
-    chrome.extension.onMessage.addListener(extensionListener);
+  // Listens to messages sent from the panel
+  chrome.extension.onMessage.addListener(extensionListener);
 });

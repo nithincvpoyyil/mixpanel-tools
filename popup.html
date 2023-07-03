@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mixpanel tools</title>
+    <style>
+      body {
+        min-width: 300px;
+        font-size: 12px;
+        padding: 10px 20px;
+      }
+      h2 {
+        font-size: 16px;
+      }
+
+      .header-list {
+        display: none;
+      }
+
+      ul {
+        color: blue;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Mixpanel tools</h2>
+    <p>
+      A debugger tool helps to intercept mixpanel events and display event
+      properties
+    </p>
+
+    <main id="main">
+      <div class="header-list" id="header-list">
+        List of API hosts configured before,
+      </div>
+      <ul id="prev-url-list"></ul>
+    </main>
+
+    <script src="popup.js" type="module"></script>
+  </body>
+</html>

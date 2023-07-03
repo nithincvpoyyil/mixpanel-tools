@@ -10,7 +10,7 @@ body {
   background-color: #fff;
 }
 
-#scroll-up-btn {
+.scroll-btn {
   display: none;
   position: fixed;
   bottom: 20px;
@@ -25,27 +25,20 @@ body {
   border-radius: 50%;
   color: #4183c4;
   transition: all 0.3s ease-in;
-  background-color: transparent;
+  background-color: #ffffff61;
 }
 
-#scroll-up-btn:hover {
+.scroll-btn:hover {
   color: #ea3511;
 }
 
-#scroll-up-btn svg {
+.scroll-btn svg {
   height: 50px;
   width: 50px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(90deg);
-}
-
-.ui.main.fluid.container {
-  margin-top: 4em;
-  border: 1px solid rgba(34, 36, 38, 0.15);
-  width: calc(100% - 10px);
-  padding: 0;
 }
 
 .ui.menu .item img.logo {
@@ -64,12 +57,12 @@ body {
 }
 
 .item.active {
-  background: rgba(65, 131, 196, 0.24);
-  color: #444;
+  background: rgb(0, 123, 245);
+  color: #fff;
 }
 .item:hover {
-  background: rgba(65, 131, 196, 0.8);
-  color: #eee;
+  background: rgb(61, 158, 255);
+  color: #fff;
 }
 
 .ui.menu .item:hover {
@@ -80,7 +73,7 @@ body {
   background: transparent !important;
 }
 
-.ui.menu .item.batched-request{
+.ui.menu .item.batched-request {
   visibility: hidden;
   font-weight: 500;
 }
@@ -98,19 +91,15 @@ body {
   content: ".";
 }
 
-.ui.internally.celled.grid {
-  min-height: 50vh;
-}
-
-.ui.celled.grid > .row > .six.wide.column.event-column {
+#event-column {
   padding: 0;
 }
-.ui.celled.grid > .row > .ten.wide.column.details-column {
+#details-column {
   padding: 0;
 }
 
-.event-column h3,
-.details-column h3 {
+#event-column h3,
+#details-column h3 {
   margin: 0;
   padding: 0.5rem 0;
   text-align: center;
@@ -119,20 +108,16 @@ body {
 }
 
 #event-list {
-  margin: 0.1rem 0;
+  margin: 0;
+  padding: 0.2em 0;
 }
 
-#property-table {
-  border: none !important;
-  margin: 0.1rem 0;
-}
-
-.table {
+table.table {
   display: none;
 }
 
 table.active {
-  display: block;
+  display: table;
 }
 
 table td span {
@@ -154,7 +139,7 @@ table td span {
 }
 
 /* keyframes */
-@-webkit-keyframes led {
+@keyframes led {
   from {
     opacity: 0.2;
   }
@@ -164,12 +149,43 @@ table td span {
   }
 }
 
-@keyframes led {
-  from {
-    opacity: 0.2;
-  }
+input#custom-api-host-input:not([value=""]) {
+  color: green;
+  border-color: rgba(34, 36, 38, 1);
+}
 
-  to {
-    opacity: 1;
-  }
+#main-container {
+  margin-top: 0;
+  width: calc(100% - 10px);
+  padding: 4em 10px 1em 10px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#main-container-grid {
+  height: 100%;
+}
+
+#main-container-wrapper {
+  height: 100%;
+  overflow: hidden;
+  border:1px solid  #d4d4d5
+}
+
+#event-column {
+  height: 100%;
+  overflow: auto;
+}
+
+#main-container-grid {
+  height: 100%;
+}
+
+#details-row {
+  height: calc(100% - 56px);
+}
+
+#details-column {
+  height: 100%;
+  overflow: auto;
 }
