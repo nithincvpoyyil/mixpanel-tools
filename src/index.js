@@ -69,21 +69,21 @@ class MixpanelTool {
 
       $("#custom-api-host-input").val(this.state.customAPIHost || "");
 
-      $("#scroll-up-btn")
+      $("#details-scroll-up-btn")
         .off("click")
         .on("click", () => {
-          this.scrollToTop();
+          this.detailsScrollToTop();
         });
 
       $("#details-column")
         .off("scroll")
         .on("scroll", (e) => {
           const isScrollable = e.target.clientHeight < e.target.scrollHeight;
-          console.log(e, isScrollable);
-          if (isScrollable && e.target.scrollTop > 50) {
-            $("#scroll-up-btn").show();
+          console.log(e, isScrollable, e.target.scrollTop);
+          if (isScrollable && e.target.scrollTop > 500) {
+            $("#details-scroll-up-btn").show();
           } else {
-            $("#scroll-up-btn").hide();
+            $("#details-scroll-up-btn").hide();
           }
         });
     });
@@ -313,12 +313,12 @@ class MixpanelTool {
     });
   }
 
-  scrollToTop() {
+  detailsScrollToTop() {
     $("#details-column").animate(
       {
         scrollTop: 0,
       },
-      2000
+      1000
     );
   }
 
@@ -329,9 +329,9 @@ class MixpanelTool {
       detailsColumn.onscroll = () => {
         console.log("onscroll");
         if (detailsColumn.scrollTop > 50) {
-          $("#scroll-up-btn").show();
+          $("#details-scroll-up-btn").show();
         } else {
-          $("#scroll-up-btn").hide();
+          $("#details-scroll-up-btn").hide();
         }
       };
     }
@@ -371,18 +371,19 @@ $(() => {
     devToolsNetworkListner((request) =>
       mixpanelTool.handleMixpanelRequest(request)
     );
-
-    for (let i = 1; i < 50; i++) {
-      let properties = {};
-      for (let j = 1; j < 500; j++) {
-        properties["test-property-" + j] =
-          i +
-          " new-valuenew- new-value new-valuenew-valuenew-value new-valuenew-valuenew-value valuenew-valuenew-valuenew-value new-valuenew-valuenew-value " +
-          j;
-      }
-      mixpanelTool.addRequest({
-        data: { properties, event: "event-" + i },
-      });
-    }
   });
 });
+
+// test data-generator
+function generateTestData(mixpanelToolInstance) {
+  for (let i = 1; i < 50; i++) {
+    let properties = {};
+    for (let j = 1; j < 500; j++) {
+      properties["test-property-" + j] =
+        i + Array[100].fill("new - data").join(" ") + j;
+    }
+    mixpanelToolInstance.addRequest({
+      data: { properties, event: "event-" + i },
+    });
+  }
+}

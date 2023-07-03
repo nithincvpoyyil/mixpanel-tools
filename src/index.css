@@ -10,7 +10,7 @@ body {
   background-color: #fff;
 }
 
-#scroll-up-btn {
+.scroll-btn {
   display: none;
   position: fixed;
   bottom: 20px;
@@ -25,14 +25,14 @@ body {
   border-radius: 50%;
   color: #4183c4;
   transition: all 0.3s ease-in;
-  background-color: transparent;
+  background-color: #ffffff61;
 }
 
-#scroll-up-btn:hover {
+.scroll-btn:hover {
   color: #ea3511;
 }
 
-#scroll-up-btn svg {
+.scroll-btn svg {
   height: 50px;
   width: 50px;
   position: absolute;

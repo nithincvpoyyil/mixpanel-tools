@@ -1,65 +1,27 @@
-// Copyright 2017 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-// TLD: top level domain; the "com" in "google.com"
-
-const tldLocales = {
-  "com.au": "Australia",
-  "com.br": "Brazil",
-  ca: "Canada",
-  cn: "China",
-  fr: "France",
-  it: "Italy",
-  "co.in": "India",
-  "co.jp": "Japan",
-  "com.ms": "Mexico",
-  ru: "Russia",
-  "co.za": "South Africa",
-  "co.uk": "United Kingdom",
-};
-
-createForm().catch(console.error);
-
-async function createForm() {
-  let { enabledTlds = Object.keys(tldLocales) } = await chrome.storage.sync.get(
-    "enabledTlds"
+async function createList() {
+  const { SAVED_URL_KEY } = await chrome.storage.sync.get("SAVED_URL_KEY");
+  const { SAVED_URL_KEY_LIST = [] } = await chrome.storage.sync.get(
+    "SAVED_URL_KEY_LIST"
   );
-  let checked = new Set(enabledTlds);
+  const saveURLs = new Set(SAVED_URL_KEY_LIST);
+  if (!saveURLs.has(SAVED_URL_KEY)) {
+    saveURLs.add(SAVED_URL_KEY);
+  }
 
-  let form = document.getElementById("form");
-  for (let [tld, locale] of Object.entries(tldLocales)) {
-    let checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.checked = checked.has(tld);
-    checkbox.name = tld;
-    checkbox.addEventListener("click", (event) => {
-      handleCheckboxClick(event).catch(console.error);
-    });
+  const mainList = document.getElementById("prev-url-list");
+  const header = document.getElementById("header-list");
 
-    let span = document.createElement("span");
-    span.textContent = locale;
-
-    let div = document.createElement("div");
-    div.appendChild(checkbox);
-    div.appendChild(span);
-
-    form.appendChild(div);
+  if (saveURLs.size > 0) {
+    header.style.display = "block";
+    for (const savedURL of saveURLs) {
+      const li = document.createElement("li");
+      li.textContent = savedURL;
+      mainList.appendChild(li);
+    }
+    await chrome.storage.sync.set({ SAVED_URL_KEY_LIST: Array.from(saveURLs) });
   }
 }
 
-async function handleCheckboxClick(event) {
-  let checkbox = event.target;
-  let tld = checkbox.name;
-  let enabled = checkbox.checked;
-
-  let { enabledTlds = Object.keys(tldLocales) } = await chrome.storage.sync.get(
-    "enabledTlds"
-  );
-  let tldSet = new Set(enabledTlds);
-
-  if (enabled) tldSet.add(tld);
-  else tldSet.delete(tld);
-
-  await chrome.storage.sync.set({ enabledTlds: [...tldSet] });
-}
+createList().catch((error) => {
+  console.error(error);
+});
