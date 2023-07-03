@@ -41,6 +41,5 @@ Please visit [chrome webstore](https://chrome.google.com/webstore/detail/mixpane
 
 * [thingsinjars/devtools-extension](https://github.com/thingsinjars/devtools-extension)- boilerplate code
 
-<a href="https://www.buymeacoffee.com/devnithincv1" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
 Made with ❤️ in Sydney 
