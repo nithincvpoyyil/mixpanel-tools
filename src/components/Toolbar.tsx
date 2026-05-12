@@ -1,0 +1,123 @@
+interface ToolbarProps {
+  isRecording: boolean;
+  omitMixpanelProperties: boolean;
+  isBatched: boolean;
+  customAPIHost: string;
+  onToggleRecording: () => void;
+  onClearAll: () => void;
+  onToggleProperties: () => void;
+  onDownload: () => void;
+  onCustomHostChange: (value: string) => void;
+}
+
+export function Toolbar({
+  isRecording,
+  omitMixpanelProperties,
+  isBatched,
+  customAPIHost,
+  onToggleRecording,
+  onClearAll,
+  onToggleProperties,
+  onDownload,
+  onCustomHostChange,
+}: ToolbarProps) {
+  return (
+    <nav className="toolbar">
+      <a
+        href="https://github.com/nithincvpoyyil/mixpanel-tools"
+        target="_blank"
+        rel="noreferrer"
+        className="toolbar-brand"
+      >
+        <img
+          src="./assets/images/logo.png"
+          alt="Mixpanel Tools"
+          className="toolbar-logo"
+        />
+        <span>Mixpanel Tools</span>
+      </a>
+
+      <button
+        className="toolbar-btn"
+        title={isRecording ? 'Pause recording' : 'Start recording'}
+        onClick={onToggleRecording}
+      >
+        <span className={`led-dot${isRecording ? ' led-dot--active' : ''}`} />
+        {isRecording ? 'Recording' : 'Paused'}
+      </button>
+
+      <button className="toolbar-btn" title="Clear all events" onClick={onClearAll}>
+        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+          <path
+            fillRule="evenodd"
+            d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+            clipRule="evenodd"
+          />
+        </svg>
+        Clear
+      </button>
+
+      <button
+        className={`toolbar-btn${omitMixpanelProperties ? ' toolbar-btn--active' : ''}`}
+        title="Toggle Mixpanel system properties visibility"
+        onClick={onToggleProperties}
+      >
+        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          {omitMixpanelProperties ? (
+            <path
+              fillRule="evenodd"
+              d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z"
+              clipRule="evenodd"
+            />
+          ) : (
+            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+          )}
+          {!omitMixpanelProperties && (
+            <path
+              fillRule="evenodd"
+              d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+              clipRule="evenodd"
+            />
+          )}
+        </svg>
+        {omitMixpanelProperties ? 'Mixpanel Props: Hidden' : 'Mixpanel Props: Shown'}
+      </button>
+
+      <button className="toolbar-btn" title="Download recorded events as JSON" onClick={onDownload}>
+        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path
+            fillRule="evenodd"
+            d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+        Download
+      </button>
+
+      <div className="toolbar-input-group">
+        <input
+          type="text"
+          className="toolbar-input"
+          placeholder="Self-hosted URL (e.g. http://proxy:8080/mp)"
+          title="Add self-hosted Mixpanel proxy URL (string match, not regex)"
+          value={customAPIHost}
+          onChange={(e) => onCustomHostChange(e.target.value)}
+        />
+        <svg className="toolbar-input-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path
+            fillRule="evenodd"
+            d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+
+      {isBatched && (
+        <span className="toolbar-badge" title="Batch requests are enabled">
+          Batch Requests Enabled
+        </span>
+      )}
+    </nav>
+  );
+}

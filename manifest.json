@@ -10,15 +10,10 @@
     },
     "devtools_page": "devtools.html",
     "background": {
-        "servicewroker": [
-            "background.js"
-        ]
+        "service_worker": "background.js"
     },
     "permissions": [
         "storage"
     ],
-    "manifest_version": 3,
-    "action": {
-        "default_popup": "popup.html"
-    }
+    "manifest_version": 3
 }
