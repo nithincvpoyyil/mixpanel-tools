@@ -2,11 +2,35 @@ import { useState, useCallback, useEffect } from 'react';
 import { AppState, MixpanelRequest } from './types';
 import { MIXPANEL_API_PATTERN } from './constants';
 import { useMixpanelListener } from './hooks/useMixpanelListener';
-import { Toolbar } from './components/Toolbar';
+import { Toolbar, Theme } from './components/Toolbar';
 import { EventList } from './components/EventList';
 import { PropertyTable } from './components/PropertyTable';
 
 const STORAGE_KEY = 'SAVED_URL_KEY';
+const THEME_STORAGE_KEY = 'SAVED_THEME_KEY';
+const THEME_CYCLE: Theme[] = ['light', 'dark', 'auto'];
+
+function applyTheme(theme: Theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+}
+
+async function getSavedTheme(): Promise<Theme> {
+  try {
+    const result = await chrome.storage.sync.get(THEME_STORAGE_KEY);
+    const value = result[THEME_STORAGE_KEY];
+    return THEME_CYCLE.includes(value) ? value : 'auto';
+  } catch {
+    return 'auto';
+  }
+}
+
+async function saveTheme(theme: Theme): Promise<void> {
+  try {
+    await chrome.storage.sync.set({ [THEME_STORAGE_KEY]: theme });
+  } catch {
+    // storage unavailable outside extension context
+  }
+}
 
 const BASE64_REGEX =
   /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
@@ -74,10 +98,15 @@ function downloadJson(data: unknown, filename: string): void {
 
 export default function App() {
   const [state, setState] = useState<AppState>(initialState);
+  const [theme, setTheme] = useState<Theme>('auto');
 
   useEffect(() => {
     getSavedCustomHost().then((host) => {
       setState((s) => ({ ...s, customAPIHost: host }));
+    });
+    getSavedTheme().then((t) => {
+      setTheme(t);
+      applyTheme(t);
     });
   }, []);
 
@@ -186,6 +215,15 @@ export default function App() {
     setState((s) => ({ ...s, selectedKey: key }));
   }, []);
 
+  const handleCycleTheme = useCallback(() => {
+    setTheme((prev) => {
+      const next = THEME_CYCLE[(THEME_CYCLE.indexOf(prev) + 1) % THEME_CYCLE.length];
+      applyTheme(next);
+      saveTheme(next);
+      return next;
+    });
+  }, []);
+
   return (
     <div className="app">
       <Toolbar
@@ -193,11 +231,13 @@ export default function App() {
         omitMixpanelProperties={state.omitMixpanelProperties}
         isBatched={state.isBatched}
         customAPIHost={state.customAPIHost}
+        theme={theme}
         onToggleRecording={handleToggleRecording}
         onClearAll={handleClearAll}
         onToggleProperties={handleToggleProperties}
         onDownload={handleDownload}
         onCustomHostChange={handleCustomHostChange}
+        onCycleTheme={handleCycleTheme}
       />
       <main className="main-layout">
         <div className="panel panel--events">

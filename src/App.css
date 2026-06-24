@@ -1,4 +1,74 @@
 /* ===========================
+   Design Tokens
+   light-dark() resolves based on color-scheme,
+   which is driven by [data-theme] on <html>.
+=========================== */
+:root {
+  color-scheme: light dark; /* auto — follows system preference */
+
+  /* Surfaces */
+  --color-bg:        light-dark(#ffffff, #141414);
+  --color-surface-1: light-dark(#fafafa, #1e1e1e);
+  --color-surface-2: light-dark(#f5f5f5, #252525);
+  --color-surface-accent: light-dark(#eef3fb, #1a2640);
+
+  /* Borders */
+  --color-border:        light-dark(#d0d0d0, #333333);
+  --color-border-subtle: light-dark(#f0f0f0, #2a2a2a);
+
+  /* Text */
+  --color-text:        light-dark(#1a1a1a, #e0e0e0);
+  --color-text-muted:  light-dark(#888888, #686868);
+  --color-text-placeholder: light-dark(#aaaaaa, #555555);
+
+  /* Toolbar (intentionally high-contrast in both modes) */
+  --color-toolbar-bg:            light-dark(#2c2c2c, #111111);
+  --color-toolbar-border:        light-dark(#444444, #2a2a2a);
+  --color-toolbar-text:          light-dark(#e0e0e0, #cccccc);
+  --color-toolbar-btn-text:      light-dark(#d0d0d0, #b8b8b8);
+  --color-toolbar-btn-hover-bg:  light-dark(#3a3a3a, #272727);
+  --color-toolbar-btn-hover-border: light-dark(#555555, #3f3f3f);
+  --color-toolbar-input-bg:      light-dark(#1a1a1a, #0a0a0a);
+  --color-toolbar-input-border:  light-dark(#555555, #3a3a3a);
+  --color-toolbar-icon-muted:    light-dark(#666666, #505050);
+
+  /* Accent / brand blue */
+  --color-accent:          light-dark(#2563eb, #3b82f6);
+  --color-accent-btn-bg:   light-dark(#1a4a8a, #1d4ed8);
+  --color-accent-btn-hover: light-dark(#1e55a0, #2563eb);
+  --color-accent-border:   light-dark(#2563eb, #3b82f6);
+  --color-accent-light-text: light-dark(#1a4a8a, #93bbff);
+  --color-accent-muted-text:  light-dark(#c7deff, #93bbff);
+
+  /* Panel header */
+  --color-panel-header-bg:     light-dark(#4183c4, #1e4a80);
+  --color-panel-header-border: light-dark(#3070b0, #163a65);
+
+  /* Event list */
+  --color-event-border:       light-dark(#f0f0f0, #282828);
+  --color-event-hover:        light-dark(#e8f0fe, #1a2640);
+  --color-event-active-bg:    light-dark(#1a73e8, #1d4ed8);
+  --color-event-active-hover: light-dark(#1557b0, #1a40c0);
+
+  /* Input — active/filled state */
+  --color-input-active: light-dark(#4ade80, #22c55e);
+
+  /* Batch badge */
+  --color-badge-bg:   light-dark(#854d0e, #713f12);
+  --color-badge-text: #fef08a;
+
+  /* Scroll-to-top button */
+  --color-scroll-btn-bg:       light-dark(rgba(255,255,255,0.85), rgba(20,20,20,0.85));
+  --color-scroll-btn-text:     light-dark(#4183c4, #60a5fa);
+  --color-scroll-btn-hover-bg: light-dark(#4183c4, #2563eb);
+}
+
+/* Override color-scheme so light-dark() resolves to the correct side */
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
+:root[data-theme="auto"]  { color-scheme: light dark; }
+
+/* ===========================
    Reset & Base
 =========================== */
 *,
@@ -15,8 +85,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 13px;
-  background: #fff;
-  color: #1a1a1a;
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
 /* ===========================
@@ -38,10 +108,10 @@ body {
   gap: 4px;
   padding: 0 8px;
   height: 40px;
-  background: #2c2c2c;
-  color: #e0e0e0;
+  background: var(--color-toolbar-bg);
+  color: var(--color-toolbar-text);
   flex-shrink: 0;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid var(--color-toolbar-border);
   overflow-x: auto;
   white-space: nowrap;
 }
@@ -51,12 +121,12 @@ body {
   align-items: center;
   gap: 6px;
   text-decoration: none;
-  color: #fff;
+  color: var(--color-toolbar-text);
   font-weight: 600;
   font-size: 13px;
   padding: 0 8px 0 0;
   margin-right: 4px;
-  border-right: 1px solid #555;
+  border-right: 1px solid var(--color-toolbar-btn-hover-border);
 }
 
 .toolbar-logo {
@@ -73,7 +143,7 @@ body {
   border: 1px solid transparent;
   border-radius: 4px;
   background: transparent;
-  color: #d0d0d0;
+  color: var(--color-toolbar-btn-text);
   font-size: 12px;
   cursor: pointer;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
@@ -87,19 +157,19 @@ body {
 }
 
 .toolbar-btn:hover {
-  background: #3a3a3a;
-  color: #fff;
-  border-color: #555;
+  background: var(--color-toolbar-btn-hover-bg);
+  color: var(--color-toolbar-text);
+  border-color: var(--color-toolbar-btn-hover-border);
 }
 
 .toolbar-btn--active {
-  background: #1a4a8a;
+  background: var(--color-accent-btn-bg);
   color: #fff;
-  border-color: #2563eb;
+  border-color: var(--color-accent-border);
 }
 
 .toolbar-btn--active:hover {
-  background: #1e55a0;
+  background: var(--color-accent-btn-hover);
 }
 
 /* Recording LED dot */
@@ -108,7 +178,7 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #666;
+  background: var(--color-toolbar-icon-muted);
   flex-shrink: 0;
 }
 
@@ -132,10 +202,10 @@ body {
 
 .toolbar-input {
   padding: 4px 28px 4px 8px;
-  border: 1px solid #555;
+  border: 1px solid var(--color-toolbar-input-border);
   border-radius: 4px;
-  background: #1a1a1a;
-  color: #d0d0d0;
+  background: var(--color-toolbar-input-bg);
+  color: var(--color-toolbar-btn-text);
   font-size: 12px;
   width: 220px;
   outline: none;
@@ -143,16 +213,16 @@ body {
 }
 
 .toolbar-input::placeholder {
-  color: #666;
+  color: var(--color-toolbar-icon-muted);
 }
 
 .toolbar-input:focus {
-  border-color: #2563eb;
+  border-color: var(--color-accent-border);
 }
 
 .toolbar-input:not(:placeholder-shown) {
-  color: #4ade80;
-  border-color: #4ade80;
+  color: var(--color-input-active);
+  border-color: var(--color-input-active);
 }
 
 .toolbar-input-icon {
@@ -160,7 +230,7 @@ body {
   right: 6px;
   width: 14px;
   height: 14px;
-  color: #666;
+  color: var(--color-toolbar-icon-muted);
   pointer-events: none;
 }
 
@@ -170,8 +240,8 @@ body {
   align-items: center;
   gap: 4px;
   padding: 2px 8px;
-  background: #854d0e;
-  color: #fef08a;
+  background: var(--color-badge-bg);
+  color: var(--color-badge-text);
   border-radius: 10px;
   font-size: 11px;
   font-weight: 500;
@@ -185,7 +255,7 @@ body {
   display: flex;
   flex: 1;
   min-height: 0;
-  border: 1px solid #d0d0d0;
+  border: 1px solid var(--color-border);
   margin: 6px;
   border-radius: 4px;
   overflow: hidden;
@@ -200,7 +270,7 @@ body {
 .panel--events {
   width: 30%;
   min-width: 180px;
-  border-right: 1px solid #d0d0d0;
+  border-right: 1px solid var(--color-border);
 }
 
 .panel--properties {
@@ -213,9 +283,9 @@ body {
   padding: 6px 10px;
   font-size: 12px;
   font-weight: 600;
-  background: #4183c4;
+  background: var(--color-panel-header-bg);
   color: #fff;
-  border-bottom: 1px solid #3070b0;
+  border-bottom: 1px solid var(--color-panel-header-border);
   flex-shrink: 0;
 }
 
@@ -240,39 +310,39 @@ body {
   gap: 4px;
   padding: 6px 10px;
   cursor: pointer;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--color-event-border);
   transition: background 0.1s;
   user-select: none;
   outline: none;
 }
 
 .event-item:hover {
-  background: #e8f0fe;
+  background: var(--color-event-hover);
 }
 
 .event-item--active {
-  background: #1a73e8;
+  background: var(--color-event-active-bg);
   color: #fff;
 }
 
 .event-item--active:hover {
-  background: #1557b0;
+  background: var(--color-event-active-hover);
 }
 
 .event-item:focus-visible {
-  box-shadow: inset 0 0 0 2px #2563eb;
+  box-shadow: inset 0 0 0 2px var(--color-accent);
 }
 
 .event-index {
   font-weight: 700;
   font-size: 11px;
-  color: #888;
+  color: var(--color-text-muted);
   flex-shrink: 0;
   min-width: 22px;
 }
 
 .event-item--active .event-index {
-  color: #c7deff;
+  color: var(--color-accent-muted-text);
 }
 
 .event-name {
@@ -282,7 +352,7 @@ body {
 
 .event-list-empty {
   padding: 24px 16px;
-  color: #888;
+  color: var(--color-text-muted);
   font-size: 12px;
   line-height: 1.6;
   text-align: center;
@@ -311,8 +381,8 @@ body {
 .property-table thead th {
   position: sticky;
   top: 0;
-  background: #f5f5f5;
-  border-bottom: 1px solid #d0d0d0;
+  background: var(--color-surface-2);
+  border-bottom: 1px solid var(--color-border);
   padding: 6px 10px;
   text-align: left;
   font-weight: 600;
@@ -320,33 +390,33 @@ body {
 }
 
 .property-table-event-name {
-  background: #eef3fb !important;
-  color: #1a4a8a;
+  background: var(--color-surface-accent) !important;
+  color: var(--color-accent-light-text);
   font-size: 13px !important;
-  border-bottom: 2px solid #c7deff !important;
+  border-bottom: 2px solid var(--color-accent-muted-text) !important;
 }
 
 .property-table tbody tr:nth-child(odd) {
-  background: #fafafa;
+  background: var(--color-surface-1);
 }
 
 .property-table tbody tr:nth-child(even) {
-  background: #fff;
+  background: var(--color-bg);
 }
 
 .property-table tbody tr:hover {
-  background: #e8f0fe;
+  background: var(--color-event-hover);
 }
 
 .property-table td {
   padding: 5px 10px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--color-border-subtle);
   vertical-align: top;
 }
 
 .prop-key {
   font-weight: 500;
-  color: #1a4a8a;
+  color: var(--color-accent-light-text);
   white-space: nowrap;
   width: 35%;
 }
@@ -355,19 +425,19 @@ body {
   word-break: break-word;
   white-space: pre-wrap;
   font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
-  color: #222;
+  color: var(--color-text);
 }
 
 .property-table-empty {
   padding: 24px 16px;
-  color: #888;
+  color: var(--color-text-muted);
   font-size: 12px;
   text-align: center;
 }
 
 .property-table-empty-row {
   text-align: center;
-  color: #aaa;
+  color: var(--color-text-placeholder);
   padding: 16px !important;
 }
 
@@ -383,19 +453,19 @@ body {
   height: 36px;
   border: none;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--color-scroll-btn-bg);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #4183c4;
+  color: var(--color-scroll-btn-text);
   transition: background 0.15s, color 0.15s;
   z-index: 10;
 }
 
 .scroll-top-btn:hover {
-  background: #4183c4;
+  background: var(--color-scroll-btn-hover-bg);
   color: #fff;
 }
 
