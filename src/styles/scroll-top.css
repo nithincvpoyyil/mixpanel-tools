@@ -1,0 +1,29 @@
+.scroll-top-btn {
+  position: sticky;
+  bottom: 16px;
+  float: right;
+  margin-right: 16px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-scroll-btn-bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-scroll-btn-text);
+  transition: background 0.15s, color 0.15s;
+  z-index: 10;
+}
+
+.scroll-top-btn:hover {
+  background: var(--color-scroll-btn-hover-bg);
+  color: #fff;
+}
+
+.scroll-top-btn svg {
+  width: 20px;
+  height: 20px;
+}

@@ -1,0 +1,145 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  height: 40px;
+  background: var(--color-toolbar-bg);
+  color: var(--color-toolbar-text);
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--color-toolbar-border);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.toolbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--color-toolbar-text);
+  font-weight: 600;
+  font-size: 13px;
+  padding: 0 8px 0 0;
+  margin-right: 4px;
+  border-right: 1px solid var(--color-toolbar-btn-hover-border);
+}
+
+.toolbar-logo {
+  height: 20px;
+  width: 20px;
+  object-fit: contain;
+}
+
+.toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-toolbar-btn-text);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.toolbar-btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.toolbar-btn:hover {
+  background: var(--color-toolbar-btn-hover-bg);
+  color: var(--color-toolbar-text);
+  border-color: var(--color-toolbar-btn-hover-border);
+}
+
+.toolbar-btn--active {
+  background: var(--color-accent-btn-bg);
+  color: #fff;
+  border-color: var(--color-accent-border);
+}
+
+.toolbar-btn--active:hover {
+  background: var(--color-accent-btn-hover);
+}
+
+/* Recording LED dot */
+.led-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-toolbar-icon-muted);
+  flex-shrink: 0;
+}
+
+.led-dot--active {
+  background: #e8193c;
+  animation: led-blink 0.8s infinite alternate;
+}
+
+@keyframes led-blink {
+  from { opacity: 0.3; }
+  to   { opacity: 1; }
+}
+
+/* Custom host input */
+.toolbar-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: 4px;
+}
+
+.toolbar-input {
+  padding: 4px 28px 4px 8px;
+  border: 1px solid var(--color-toolbar-input-border);
+  border-radius: 4px;
+  background: var(--color-toolbar-input-bg);
+  color: var(--color-toolbar-btn-text);
+  font-size: 12px;
+  width: 220px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.toolbar-input::placeholder {
+  color: var(--color-toolbar-icon-muted);
+}
+
+.toolbar-input:focus {
+  border-color: var(--color-accent-border);
+}
+
+.toolbar-input:not(:placeholder-shown) {
+  color: var(--color-input-active);
+  border-color: var(--color-input-active);
+}
+
+.toolbar-input-icon {
+  position: absolute;
+  right: 6px;
+  width: 14px;
+  height: 14px;
+  color: var(--color-toolbar-icon-muted);
+  pointer-events: none;
+}
+
+/* Batch badge */
+.toolbar-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: var(--color-badge-bg);
+  color: var(--color-badge-text);
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}

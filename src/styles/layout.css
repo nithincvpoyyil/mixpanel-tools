@@ -1,0 +1,50 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  border: 1px solid var(--color-border);
+  margin: 6px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.panel--events {
+  width: 30%;
+  min-width: 180px;
+  border-right: 1px solid var(--color-border);
+}
+
+.panel--properties {
+  flex: 1;
+  min-width: 0;
+}
+
+.panel-header {
+  margin: 0;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--color-panel-header-bg);
+  color: #fff;
+  border-bottom: 1px solid var(--color-panel-header-border);
+  flex-shrink: 0;
+}
+
+.panel-body {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}

@@ -1,0 +1,75 @@
+.property-table-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  position: relative;
+}
+
+.property-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.property-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--color-surface-2);
+  border-bottom: 1px solid var(--color-border);
+  padding: 6px 10px;
+  text-align: left;
+  font-weight: 600;
+  z-index: 1;
+}
+
+.property-table-event-name {
+  background: var(--color-surface-accent) !important;
+  color: var(--color-accent-light-text);
+  font-size: 13px !important;
+  border-bottom: 2px solid var(--color-accent-muted-text) !important;
+}
+
+.property-table tbody tr:nth-child(odd) {
+  background: var(--color-surface-1);
+}
+
+.property-table tbody tr:nth-child(even) {
+  background: var(--color-bg);
+}
+
+.property-table tbody tr:hover {
+  background: var(--color-event-hover);
+}
+
+.property-table td {
+  padding: 5px 10px;
+  border-bottom: 1px solid var(--color-border-subtle);
+  vertical-align: top;
+}
+
+.prop-key {
+  font-weight: 500;
+  color: var(--color-accent-light-text);
+  white-space: nowrap;
+  width: 35%;
+}
+
+.prop-value {
+  word-break: break-word;
+  white-space: pre-wrap;
+  font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
+  color: var(--color-text);
+}
+
+.property-table-empty {
+  padding: 24px 16px;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.property-table-empty-row {
+  text-align: center;
+  color: var(--color-text-placeholder);
+  padding: 16px !important;
+}
