@@ -5,6 +5,7 @@ import { useMixpanelListener } from './hooks/useMixpanelListener';
 import { Toolbar, Theme } from './components/Toolbar';
 import { EventList } from './components/EventList';
 import { PropertyTable } from './components/PropertyTable';
+import { HelpPanel } from './components/HelpPanel';
 
 const STORAGE_KEY = 'SAVED_URL_KEY';
 const THEME_STORAGE_KEY = 'SAVED_THEME_KEY';
@@ -96,9 +97,43 @@ function downloadJson(data: unknown, filename: string): void {
   a.remove();
 }
 
+function EventDetailsPanel({
+  count,
+  requests,
+  selectedKey,
+  omitMixpanelProperties,
+  onSelect,
+}: {
+  count: number;
+  requests: AppState['requests'];
+  selectedKey: string | null;
+  omitMixpanelProperties: boolean;
+  onSelect: (key: string) => void;
+}) {
+  return (
+    <>
+      <div className="panel panel--events">
+        <h3 className="panel-header">Events ({count})</h3>
+        <div className="panel-body">
+          <EventList requests={requests} selectedKey={selectedKey} onSelect={onSelect} />
+        </div>
+      </div>
+      <div className="panel panel--properties">
+        <h3 className="panel-header">Properties</h3>
+        <PropertyTable
+          selectedKey={selectedKey}
+          requests={requests}
+          omitMixpanelProperties={omitMixpanelProperties}
+        />
+      </div>
+    </>
+  );
+}
+
 export default function App() {
   const [state, setState] = useState<AppState>(initialState);
   const [theme, setTheme] = useState<Theme>('auto');
+  const [showHelp, setShowHelp] = useState(false);
 
   useEffect(() => {
     getSavedCustomHost().then((host) => {
@@ -224,6 +259,10 @@ export default function App() {
     });
   }, []);
 
+  const handleToggleHelp = useCallback(() => {
+    setShowHelp((v) => !v);
+  }, []);
+
   return (
     <div className="app">
       <Toolbar
@@ -232,32 +271,27 @@ export default function App() {
         isBatched={state.isBatched}
         customAPIHost={state.customAPIHost}
         theme={theme}
+        showHelp={showHelp}
         onToggleRecording={handleToggleRecording}
         onClearAll={handleClearAll}
         onToggleProperties={handleToggleProperties}
         onDownload={handleDownload}
         onCustomHostChange={handleCustomHostChange}
         onCycleTheme={handleCycleTheme}
+        onToggleHelp={handleToggleHelp}
       />
       <main className="main-layout">
-        <div className="panel panel--events">
-          <h3 className="panel-header">Events ({state.count})</h3>
-          <div className="panel-body">
-            <EventList
-              requests={state.requests}
-              selectedKey={state.selectedKey}
-              onSelect={handleSelectEvent}
-            />
-          </div>
-        </div>
-        <div className="panel panel--properties">
-          <h3 className="panel-header">Properties</h3>
-          <PropertyTable
-            selectedKey={state.selectedKey}
+        {showHelp ? (
+          <HelpPanel onClose={handleToggleHelp} />
+        ) : (
+          <EventDetailsPanel
+            count={state.count}
             requests={state.requests}
+            selectedKey={state.selectedKey}
             omitMixpanelProperties={state.omitMixpanelProperties}
+            onSelect={handleSelectEvent}
           />
-        </div>
+        )}
       </main>
     </div>
   );
