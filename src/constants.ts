@@ -30,4 +30,4 @@ export const MIXPANEL_PROPERTIES: string[] = [
 // Matches Mixpanel API endpoints including EU, IPv6, and JS SDK variants
 // Covers track (events), engage (people), and groups endpoints
 export const MIXPANEL_API_PATTERN =
-  /\/\/(ipv6-)?(api)(-js)?(-eu)?\.mixpanel\.com\/(track|engage|groups)/i;
+  /\/\/(ipv6-)?api(-js-eu|-eu-js|-js|-eu)?\.mixpanel\.com\/(track|engage|groups)/i;
