@@ -38,14 +38,23 @@ export function PropertyTable({
     );
   }
 
-  const { event, properties } = requests[selectedKey].data;
+  const req = requests[selectedKey];
+  const data = req.data as Record<string, unknown>;
+  const isTrack = req.type === 'track';
+  const eventName = isTrack ? (data['event'] as string) : undefined;
+  const properties: Record<string, unknown> = isTrack
+    ? (data['properties'] as Record<string, unknown>) ?? {}
+    : data;
+
+  const PEOPLE_META_KEYS = ['$token', '$distinct_id', '$group_key', '$group_id', '$had_persisted_distinct_id'];
 
   const visibleEntries = Object.entries(properties).filter(([key]) => {
-    if (omitMixpanelProperties && MIXPANEL_PROPERTIES.includes(key)) {
-      return false;
-    }
+    if (!isTrack && PEOPLE_META_KEYS.includes(key)) return false;
+    if (omitMixpanelProperties && MIXPANEL_PROPERTIES.includes(key)) return false;
     return true;
   });
+
+  const headerLabel = eventName ?? (req.type === 'groups' ? '[groups]' : '[people]');
 
   return (
     <div className="property-table-wrapper" ref={containerRef}>
@@ -53,7 +62,7 @@ export function PropertyTable({
         <thead>
           <tr>
             <th colSpan={2} className="property-table-event-name">
-              {event}
+              {headerLabel}
             </th>
           </tr>
           <tr>

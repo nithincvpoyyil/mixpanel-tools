@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { AppState, MixpanelRequest } from './types';
+import { AppState, MixpanelRequest, MixpanelRequestType } from './types';
 import { MIXPANEL_API_PATTERN } from './constants';
 import { useMixpanelListener } from './hooks/useMixpanelListener';
 import { Toolbar, Theme } from './components/Toolbar';
@@ -45,6 +45,12 @@ const initialState: AppState = {
   isRecording: true,
   isBatched: false,
 };
+
+function getRequestType(url: string): MixpanelRequestType {
+  if (/\/engage/i.test(url)) return 'engage';
+  if (/\/groups/i.test(url)) return 'groups';
+  return 'track';
+}
 
 function getUrlParams(request: chrome.devtools.network.Request): Record<string, string> {
   return (request.request.queryString ?? []).reduce<Record<string, string>>(
@@ -166,12 +172,13 @@ export default function App() {
         try {
           const method = request.request.method;
           const urlParams = getUrlParams(request);
+          const type = getRequestType(request.request.url);
           let newState = { ...prev };
 
           const addEntry = (parsed: MixpanelRequest['data']): AppState => {
             const count = newState.count + 1;
             const key = `event-${count}`;
-            const entry: MixpanelRequest = { ...urlParams, data: parsed };
+            const entry: MixpanelRequest = { ...urlParams, type, data: parsed };
             return {
               ...newState,
               count,
@@ -180,29 +187,33 @@ export default function App() {
             };
           };
 
+          const isValidItem = (item: unknown): boolean => {
+            if (!item || typeof item !== 'object') return false;
+            const obj = item as Record<string, unknown>;
+            if (type === 'track') return typeof obj['event'] === 'string';
+            // engage/groups: must have at least one known operation key or any non-meta key
+            return Object.keys(obj).some((k) => k.startsWith('$') || k !== 'token');
+          };
+
           if (method === 'GET') {
             const encoded = urlParams['data'] ?? '';
-            const properties = decodeProperties(encoded) as MixpanelRequest['data'];
-            if (properties?.event) {
-              newState = addEntry(properties);
+            const parsed = decodeProperties(encoded) as MixpanelRequest['data'];
+            if (isValidItem(parsed)) {
+              newState = addEntry(parsed);
             }
           } else if (method === 'POST') {
             const encoded = getPostDataParam(request);
-            const properties = decodeProperties(encoded);
+            const parsed = decodeProperties(encoded);
 
-            if (Array.isArray(properties)) {
+            if (Array.isArray(parsed)) {
               newState = { ...newState, isBatched: true };
-              for (const item of properties) {
-                const typed = item as MixpanelRequest['data'];
-                if (typed?.event) {
-                  newState = addEntry(typed);
+              for (const item of parsed) {
+                if (isValidItem(item)) {
+                  newState = addEntry(item as MixpanelRequest['data']);
                 }
               }
-            } else {
-              const typed = properties as MixpanelRequest['data'];
-              if (typed?.event) {
-                newState = addEntry(typed);
-              }
+            } else if (isValidItem(parsed)) {
+              newState = addEntry(parsed as MixpanelRequest['data']);
             }
           }
 
