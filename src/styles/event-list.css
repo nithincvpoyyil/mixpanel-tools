@@ -47,7 +47,10 @@
 
 .event-name {
   font-size: 12px;
-  word-break: break-word;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .event-list-empty {
