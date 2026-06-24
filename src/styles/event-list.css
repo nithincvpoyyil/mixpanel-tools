@@ -53,6 +53,15 @@
   min-width: 0;
 }
 
+.event-item--people .event-name {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.event-item--active.event-item--people .event-name {
+  color: var(--color-accent-muted-text);
+}
+
 .event-list-empty {
   padding: 24px 16px;
   color: var(--color-text-muted);

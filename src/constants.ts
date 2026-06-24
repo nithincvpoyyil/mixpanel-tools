@@ -19,8 +19,15 @@ export const MIXPANEL_PROPERTIES: string[] = [
   '$insert_id',
   '$device_id',
   '$anon_distinct_id',
+  '$time',
+  '$mp_api_endpoint',
+  '$had_persisted_distinct_id',
+  'mp_sent_by_lib_version',
+  '$identified_id',
+  '$anon_id',
 ];
 
 // Matches Mixpanel API endpoints including EU, IPv6, and JS SDK variants
+// Covers track (events), engage (people), and groups endpoints
 export const MIXPANEL_API_PATTERN =
-  /\/\/(ipv6-)?(api)(-js)?(-eu)?\.mixpanel\.com\/(track|engage)/i;
+  /\/\/(ipv6-)?(api)(-js)?(-eu)?\.mixpanel\.com\/(track|engage|groups)/i;
