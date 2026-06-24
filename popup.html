@@ -1,40 +1,172 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Mixpanel tools</title>
+    <meta charset="UTF-8" />
+    <title>Mixpanel Tools</title>
     <style>
+      :root {
+        color-scheme: light dark;
+
+        --bg:           light-dark(#ffffff, #141414);
+        --surface:      light-dark(#f5f5f5, #1e1e1e);
+        --border:       light-dark(#e0e0e0, #2e2e2e);
+        --text:         light-dark(#1a1a1a, #e0e0e0);
+        --text-muted:   light-dark(#777777, #686868);
+        --accent:       light-dark(#2563eb, #3b82f6);
+        --accent-bg:    light-dark(#eef3fb, #1a2640);
+        --badge-bg:     light-dark(#f0f4ff, #1a2640);
+        --badge-text:   light-dark(#2563eb, #93bbff);
+        --empty-icon:   light-dark(#d0d0d0, #333333);
+      }
+
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
       body {
-        min-width: 300px;
+        width: 300px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 13px;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      /* Header */
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 16px 12px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .header-logo {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        flex-shrink: 0;
+      }
+
+      .header-title {
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+
+      .header-subtitle {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 1px;
+      }
+
+      /* Open DevTools hint */
+      .hint {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 12px 16px;
+        padding: 10px 12px;
+        background: var(--accent-bg);
+        border-radius: 8px;
         font-size: 12px;
-        padding: 10px 20px;
-      }
-      h2 {
-        font-size: 16px;
+        color: var(--accent);
+        line-height: 1.4;
       }
 
-      .header-list {
-        display: none;
+      .hint svg {
+        flex-shrink: 0;
+        opacity: 0.8;
       }
 
-      ul {
-        color: blue;
+      /* Host list section */
+      .section {
+        padding: 0 16px 14px;
+      }
+
+      .section-label {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--text-muted);
+        margin-bottom: 8px;
+      }
+
+      .host-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .host-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 10px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 12px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        color: var(--text);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .host-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+        flex-shrink: 0;
+      }
+
+      /* Empty state */
+      .empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 16px 0 4px;
+        color: var(--text-muted);
+        font-size: 12px;
+        text-align: center;
+      }
+
+      .empty svg {
+        color: var(--empty-icon);
       }
     </style>
   </head>
-
   <body>
-    <h2>Mixpanel tools</h2>
-    <p>
-      A debugger tool helps to intercept mixpanel events and display event
-      properties
-    </p>
-
-    <main id="main">
-      <div class="header-list" id="header-list">
-        List of API hosts configured before,
+    <div class="header">
+      <img class="header-logo" src="./assets/images/logo-48.png" alt="" />
+      <div>
+        <div class="header-title">Mixpanel Tools</div>
+        <div class="header-subtitle">DevTools network inspector helps to intercept mixpanel events</div>
       </div>
-      <ul id="prev-url-list"></ul>
-    </main>
+    </div>
+
+    <div class="hint">
+      <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+      </svg>
+      Open DevTools → Mixpanel Tools tab to inspect events.
+    </div>
+
+    <div class="section" id="host-section" style="display:none">
+      <div class="section-label">Saved custom API hosts</div>
+      <ul class="host-list" id="host-list"></ul>
+    </div>
+
+    <div class="section" id="empty-section">
+      <div class="empty">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+        No custom hosts saved yet.
+      </div>
+    </div>
 
     <script src="popup.js" type="module"></script>
   </body>

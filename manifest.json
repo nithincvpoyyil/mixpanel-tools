@@ -8,6 +8,14 @@
         "48": "./assets/images/logo-48.png",
         "128": "./assets/images/logo-128.png"
     },
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "./assets/images/logo-16.png",
+            "48": "./assets/images/logo-48.png",
+            "128": "./assets/images/logo-128.png"
+        }
+    },
     "devtools_page": "devtools.html",
     "background": {
         "service_worker": "background.js"
