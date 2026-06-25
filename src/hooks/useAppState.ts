@@ -154,9 +154,11 @@ export function useAppState() {
     setState((s) => ({ ...s, omitMixpanelProperties: !s.omitMixpanelProperties }));
   }, []);
 
+  const requestsRef = useRef(state.requests);
+  requestsRef.current = state.requests;
   const handleDownload = useCallback(() => {
-    downloadJson(state.requests, 'mixpanel-events.json');
-  }, [state.requests]);
+    downloadJson(requestsRef.current, 'mixpanel-events.json');
+  }, []);
 
   const handleCustomHostChange = useCallback((value: string) => {
     setState((s) => ({ ...s, customAPIHost: value }));

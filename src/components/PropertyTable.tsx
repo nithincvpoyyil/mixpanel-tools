@@ -2,15 +2,15 @@ import { useRef, useState, useEffect } from 'react';
 import { MixpanelRequest } from '../types';
 import { MIXPANEL_PROPERTIES } from '../constants';
 
+const PEOPLE_META_KEYS = ['$token', '$distinct_id', '$group_key', '$group_id', '$had_persisted_distinct_id'];
+
 interface PropertyTableProps {
-  selectedKey: string | null;
-  requests: Record<string, MixpanelRequest>;
+  selectedRequest: MixpanelRequest | undefined;
   omitMixpanelProperties: boolean;
 }
 
 export function PropertyTable({
-  selectedKey,
-  requests,
+  selectedRequest,
   omitMixpanelProperties,
 }: PropertyTableProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -28,9 +28,9 @@ export function PropertyTable({
   useEffect(() => {
     containerRef.current?.scrollTo({ top: 0 });
     setShowScrollTop(false);
-  }, [selectedKey]);
+  }, [selectedRequest]);
 
-  if (!selectedKey || !requests[selectedKey]) {
+  if (!selectedRequest) {
     return (
       <div className="property-table-empty">
         <p>Select an event to view its properties.</p>
@@ -38,15 +38,13 @@ export function PropertyTable({
     );
   }
 
-  const req = requests[selectedKey];
+  const req = selectedRequest;
   const data = req.data as Record<string, unknown>;
   const isTrack = req.type === 'track';
   const eventName = isTrack ? (data['event'] as string) : undefined;
   const properties: Record<string, unknown> = isTrack
     ? (data['properties'] as Record<string, unknown>) ?? {}
     : data;
-
-  const PEOPLE_META_KEYS = ['$token', '$distinct_id', '$group_key', '$group_id', '$had_persisted_distinct_id'];
 
   const visibleEntries = Object.entries(properties).filter(([key]) => {
     if (!isTrack && PEOPLE_META_KEYS.includes(key)) return false;
