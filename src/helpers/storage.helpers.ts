@@ -7,11 +7,20 @@ const THEME_CYCLE: Theme[] = ['light', 'dark', 'auto'];
 
 export { THEME_CYCLE };
 
+export function isValidHost(value: string): boolean {
+  try {
+    const prefix = /^https?:\/\//i.test(value) ? '' : 'https://';
+    return new URL(prefix + value).hostname.length > 0;
+  } catch {
+    return false;
+  }
+}
+
 export async function getSavedCustomHost(): Promise<string> {
   try {
     const result = await chrome.storage.sync.get(STORAGE_KEY);
     const value = result[STORAGE_KEY];
-    return typeof value === 'string' ? value : '';
+    return typeof value === 'string' && value ? value : '';
   } catch {
     return '';
   }
@@ -19,7 +28,11 @@ export async function getSavedCustomHost(): Promise<string> {
 
 export async function saveCustomHost(host: string): Promise<void> {
   try {
-    await chrome.storage.sync.set({ [STORAGE_KEY]: host });
+    if (host) {
+      await chrome.storage.sync.set({ [STORAGE_KEY]: host });
+    } else {
+      await chrome.storage.sync.remove(STORAGE_KEY);
+    }
   } catch {
     // storage unavailable (e.g. during dev outside extension context)
   }

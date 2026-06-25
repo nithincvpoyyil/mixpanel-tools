@@ -12,6 +12,7 @@ interface ToolbarProps {
   onToggleProperties: () => void;
   onDownload: () => void;
   onCustomHostChange: (value: string) => void;
+  onCustomHostCommit: (value: string) => void;
   onCycleTheme: () => void;
   onToggleHelp: () => void;
 }
@@ -116,19 +117,23 @@ function DownloadButton({ onClick }: { onClick: () => void }) {
 function CustomHostInput({
   value,
   onChange,
+  onCommit,
 }: {
   value: string;
   onChange: (value: string) => void;
+  onCommit: (value: string) => void;
 }) {
   return (
     <div className="toolbar-input-group">
       <input
         type="text"
         className="toolbar-input"
-        placeholder="Self-hosted URL (e.g. http://proxy:8080/mp)"
+        placeholder="self-hosted URL (e.g. http://url:port)"
         title="Add self-hosted Mixpanel proxy URL (string match, not regex)"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onBlur={(e) => onCommit(e.target.value)}
+        onKeyDown={(e) => e.key === 'Enter' && onCommit((e.target as HTMLInputElement).value)}
       />
       <svg className="toolbar-input-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
         <path
@@ -226,6 +231,7 @@ export function Toolbar({
   onToggleProperties,
   onDownload,
   onCustomHostChange,
+  onCustomHostCommit,
   onCycleTheme,
   onToggleHelp,
 }: ToolbarProps) {
@@ -236,7 +242,7 @@ export function Toolbar({
       <ClearButton onClick={onClearAll} />
       <PropertiesToggleButton omitMixpanelProperties={omitMixpanelProperties} onClick={onToggleProperties} />
       <DownloadButton onClick={onDownload} />
-      <CustomHostInput value={customAPIHost} onChange={onCustomHostChange} />
+      <CustomHostInput value={customAPIHost} onChange={onCustomHostChange} onCommit={onCustomHostCommit} />
       {isBatched && <BatchBadge />}
       <ThemeCycleButton theme={theme} onClick={onCycleTheme} />
       <HelpButton isActive={showHelp} onClick={onToggleHelp} />

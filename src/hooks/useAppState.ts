@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { AppState, MixpanelRequest } from '../types';
 import { MIXPANEL_API_PATTERN } from '../constants';
 import { Theme } from '../components/Toolbar';
@@ -15,6 +15,7 @@ import {
   getSavedTheme,
   saveTheme,
   THEME_CYCLE,
+  isValidHost,
 } from '../helpers/storage.helpers';
 import { applyTheme } from '../helpers/theme.helpers';
 
@@ -118,11 +119,28 @@ export function useAppState() {
     [isRequestValid]
   );
 
+  const prevCountRef = useRef(0);
+  useEffect(() => {
+    if (state.count === prevCountRef.current) return;
+    prevCountRef.current = state.count;
+    try {
+      chrome.runtime.sendMessage({ type: 'SET_BADGE', count: state.count });
+    } catch {
+      // outside extension context
+    }
+  }, [state.count]);
+
   const handleToggleRecording = useCallback(() => {
     setState((s) => ({ ...s, isRecording: !s.isRecording }));
   }, []);
 
   const handleClearAll = useCallback(() => {
+    prevCountRef.current = 0;
+    try {
+      chrome.runtime.sendMessage({ type: 'SET_BADGE', count: 0 });
+    } catch {
+      // outside extension context
+    }
     setState((s) => ({
       ...s,
       requests: {},
@@ -141,7 +159,12 @@ export function useAppState() {
   }, [state.requests]);
 
   const handleCustomHostChange = useCallback((value: string) => {
+    setState((s) => ({ ...s, customAPIHost: value }));
+  }, []);
+
+  const handleCustomHostCommit = useCallback((value: string) => {
     const host = value.trim().toLowerCase();
+    if (host && !isValidHost(host)) return;
     setState((s) => ({ ...s, customAPIHost: host }));
     saveCustomHost(host);
   }, []);
@@ -173,6 +196,7 @@ export function useAppState() {
     handleToggleProperties,
     handleDownload,
     handleCustomHostChange,
+    handleCustomHostCommit,
     handleSelectEvent,
     handleCycleTheme,
     handleToggleHelp,

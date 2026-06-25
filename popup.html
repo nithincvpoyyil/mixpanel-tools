@@ -76,7 +76,7 @@
         opacity: 0.8;
       }
 
-      /* Host list section */
+      /* Host section */
       .section {
         padding: 0 16px 14px;
       }
@@ -90,13 +90,6 @@
         margin-bottom: 8px;
       }
 
-      .host-list {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-      }
-
       .host-item {
         display: flex;
         align-items: center;
@@ -108,9 +101,7 @@
         font-size: 12px;
         font-family: 'SF Mono', 'Fira Code', monospace;
         color: var(--text);
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        min-width: 0;
       }
 
       .host-dot {
@@ -119,6 +110,40 @@
         border-radius: 50%;
         background: var(--accent);
         flex-shrink: 0;
+      }
+
+      .host-label {
+        flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        min-width: 0;
+      }
+
+      .host-delete {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        border: none;
+        border-radius: 4px;
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        opacity: 0.5;
+        transition: background 0.15s, color 0.15s, opacity 0.15s;
+      }
+
+      .host-item:hover .host-delete {
+        opacity: 1;
+      }
+
+      .host-delete:hover {
+        background: light-dark(#fee2e2, #3f1515);
+        color: light-dark(#dc2626, #f87171);
       }
 
       /* Empty state */
@@ -135,6 +160,30 @@
 
       .empty svg {
         color: var(--empty-icon);
+      }
+
+      /* Event count card */
+      .count-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 16px 12px;
+        padding: 10px 14px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+
+      .count-label {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .count-value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
       }
     </style>
   </head>
@@ -154,9 +203,22 @@
       Open DevTools → Mixpanel Tools tab to inspect events.
     </div>
 
+    <div class="count-card">
+      <span class="count-label">Events captured</span>
+      <span class="count-value" id="event-count">0</span>
+    </div>
+
     <div class="section" id="host-section" style="display:none">
-      <div class="section-label">Saved custom API hosts</div>
-      <ul class="host-list" id="host-list"></ul>
+      <div class="section-label">Self-hosted API</div>
+      <div class="host-item">
+        <span class="host-dot"></span>
+        <span class="host-label" id="host-value"></span>
+        <button class="host-delete" id="host-delete" title="Remove saved host" aria-label="Remove saved host">
+          <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <div class="section" id="empty-section">

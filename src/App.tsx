@@ -15,6 +15,7 @@ export default function App() {
     handleToggleProperties,
     handleDownload,
     handleCustomHostChange,
+    handleCustomHostCommit,
     handleSelectEvent,
     handleCycleTheme,
     handleToggleHelp,
@@ -36,6 +37,7 @@ export default function App() {
         onToggleProperties={handleToggleProperties}
         onDownload={handleDownload}
         onCustomHostChange={handleCustomHostChange}
+        onCustomHostCommit={handleCustomHostCommit}
         onCycleTheme={handleCycleTheme}
         onToggleHelp={handleToggleHelp}
       />
