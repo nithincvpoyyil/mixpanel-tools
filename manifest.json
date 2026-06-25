@@ -1,6 +1,6 @@
 {
     "name": "Mixpanel Tools",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "A debugger tool helps to intercept mixpanel events and display event properties",
     "short_name": "mixpanel tools",
     "icons": {
