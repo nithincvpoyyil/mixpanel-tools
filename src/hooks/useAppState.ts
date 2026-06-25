@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { AppState, MixpanelRequest } from '../types';
+import { AppState, MixpanelRequest, ENGAGE_OPERATIONS } from '../types';
 import { MIXPANEL_API_PATTERN } from '../constants';
 import { Theme } from '../components/Toolbar';
 import {
@@ -49,7 +49,7 @@ export function useAppState() {
       const url = request.request.url;
       if (!url) return false;
       if (MIXPANEL_API_PATTERN.test(url)) return true;
-      if (customAPIHost && url.includes(customAPIHost)) return true;
+      if (customAPIHost && isValidHost(customAPIHost) && url.includes(customAPIHost)) return true;
       return false;
     },
     []
@@ -84,7 +84,7 @@ export function useAppState() {
             if (!item || typeof item !== 'object') return false;
             const obj = item as Record<string, unknown>;
             if (type === 'track') return typeof obj['event'] === 'string';
-            return Object.keys(obj).some((k) => k.startsWith('$') || k !== 'token');
+            return (ENGAGE_OPERATIONS as readonly string[]).some((op) => op in obj);
           };
 
           if (method === 'GET') {

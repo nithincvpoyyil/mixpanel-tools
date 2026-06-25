@@ -20,9 +20,17 @@ export function getUrlParams(request: chrome.devtools.network.Request): Record<s
 }
 
 export function getPostDataParam(request: chrome.devtools.network.Request): string {
-  const params = request.request.postData?.params ?? [];
+  const postData = request.request.postData;
+  if (!postData) return '';
+  // Form-encoded body: params array is populated
+  const params = postData.params ?? [];
   const dataParam = params.find((p) => p.name === 'data');
-  return dataParam?.value ?? '';
+  if (dataParam?.value) return dataParam.value;
+  // Raw body: may be form-encoded text ("data=<value>") or bare JSON
+  const raw = postData.text ?? '';
+  const match = raw.match(/(?:^|&)data=([^&]*)/);
+  // Return the raw match value (still URL-encoded) so decodeProperties can handle it uniformly
+  return match ? match[1] : raw;
 }
 
 export function decodeProperties(encoded: string): unknown {
