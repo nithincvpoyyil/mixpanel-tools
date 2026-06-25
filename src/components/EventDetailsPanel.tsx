@@ -17,6 +17,8 @@ export function EventDetailsPanel({
   omitMixpanelProperties,
   onSelect,
 }: EventDetailsPanelProps) {
+  const selectedRequest = selectedKey ? requests[selectedKey] : undefined;
+
   return (
     <>
       <div className="panel panel--events">
@@ -28,8 +30,7 @@ export function EventDetailsPanel({
       <div className="panel panel--properties">
         <h3 className="panel-header">Properties</h3>
         <PropertyTable
-          selectedKey={selectedKey}
-          requests={requests}
+          selectedRequest={selectedRequest}
           omitMixpanelProperties={omitMixpanelProperties}
         />
       </div>

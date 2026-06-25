@@ -1,3 +1,5 @@
+import React from 'react';
+
 export type Theme = 'light' | 'dark' | 'auto';
 
 interface ToolbarProps {
@@ -219,7 +221,7 @@ function BatchBadge() {
   );
 }
 
-export function Toolbar({
+export const Toolbar = React.memo(function Toolbar({
   isRecording,
   omitMixpanelProperties,
   isBatched,
@@ -248,4 +250,4 @@ export function Toolbar({
       <HelpButton isActive={showHelp} onClick={onToggleHelp} />
     </nav>
   );
-}
+});
