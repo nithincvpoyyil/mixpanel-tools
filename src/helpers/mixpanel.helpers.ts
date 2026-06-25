@@ -34,9 +34,15 @@ export function getPostDataParam(request: chrome.devtools.network.Request): stri
 }
 
 export function decodeProperties(encoded: string): unknown {
-  const decoded = decodeURIComponent(encoded);
-  const str = BASE64_REGEX.test(decoded) ? atob(decoded) : decoded;
-  return JSON.parse(str);
+  if (!encoded) return null;
+  try {
+    const decoded = decodeURIComponent(encoded);
+    const str = BASE64_REGEX.test(decoded) ? atob(decoded) : decoded;
+    return JSON.parse(str);
+  } catch (err) {
+    console.warn('decodeProperties: failed to decode payload', err);
+    return null;
+  }
 }
 
 export function downloadJson(data: unknown, filename: string): void {
