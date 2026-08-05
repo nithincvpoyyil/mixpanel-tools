@@ -7,7 +7,9 @@
     "dev": "vite build --watch",
     "build": "vite build",
     "typecheck": "tsc --noEmit",
-    "export": "bash scripts/export.sh"
+    "export": "bash scripts/export.sh",
+    "build:firefox": "bash scripts/build-firefox.sh",
+    "export:firefox": "bash scripts/export-firefox.sh"
   },
   "dependencies": {
     "react": "^18.3.1",
